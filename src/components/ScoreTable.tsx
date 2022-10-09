@@ -1,11 +1,11 @@
-import { FC } from "react";
+import { ChangeEvent, FC, FocusEventHandler, useRef } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import { TextField } from "@mui/material";
 
 function createData(playerOneScore: number, playerTwoScore: number) {
   return { playerOneScore, playerTwoScore };
@@ -33,14 +33,29 @@ let scoresMap: { [name: string]: number } = {};
 
 scoresMap["Joe W"] = 0;
 scoresMap["Todd C"] = 0;
-
 interface ScoreTableProps {
   showRatings: boolean;
 }
 
 const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
+  let playerOneScore = "";
+  let playerTwoScore = "";
+
+  const handleScoreInput = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log(event);
+    const enteredScore = Number(event.target.value);
+
+    // check which input the event is from, update opposite input respectively
+    console.log(event.target.id);
+    if (event.target.id === "playerOneScore") {
+      playerTwoScore = (15 - enteredScore).toString();
+    } else {
+      playerOneScore = (15 - enteredScore).toString();
+    }
+  };
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer sx={{ maxHeight: "100vh" }}>
       <Table stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -78,6 +93,25 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
               </TableCell>
             </TableRow>
           ))}
+          <TableRow
+            key={-1}
+            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+          >
+            <TableCell component="th" scope="row" align="center">
+              <TextField
+                type="number"
+                id="playerOneScore"
+                onChange={handleScoreInput}
+              />
+            </TableCell>
+            <TableCell component="th" scope="row" align="center">
+              <TextField
+                type="number"
+                id="playerTwoScore"
+                onChange={handleScoreInput}
+              />
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
