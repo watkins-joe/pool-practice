@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FocusEventHandler, useRef } from "react";
+import { ChangeEvent, FC } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,40 +7,130 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { TextField } from "@mui/material";
 
-function createData(playerOneScore: number, playerTwoScore: number) {
-  return { playerOneScore, playerTwoScore };
-}
-
-let gameData = [
-  createData(5, 10),
-  createData(8, 7),
-  createData(8, 7),
-  createData(8, 7),
-  createData(8, 7),
-  createData(8, 7),
-  createData(8, 7),
-  createData(8, 7),
-  createData(8, 7),
-  createData(8, 7),
-  createData(8, 7),
-  createData(8, 7),
+const GAME_DATA: GameScores[] = [
+  {
+    playerOneScore: 6,
+    playerTwoScore: 9,
+    id: 0,
+  },
+  {
+    playerOneScore: 12,
+    playerTwoScore: 3,
+    id: 1,
+  },
+  {
+    playerOneScore: 15,
+    playerTwoScore: 0,
+    id: 2,
+  },
+  {
+    playerOneScore: 4,
+    playerTwoScore: 11,
+    id: 3,
+  },
+  {
+    playerOneScore: 5,
+    playerTwoScore: 10,
+    id: 4,
+  },
+  {
+    playerOneScore: 4,
+    playerTwoScore: 11,
+    id: 5,
+  },
+  {
+    playerOneScore: 4,
+    playerTwoScore: 11,
+    id: 6,
+  },
+  {
+    playerOneScore: 2,
+    playerTwoScore: 13,
+    id: 7,
+  },
+  {
+    playerOneScore: 10,
+    playerTwoScore: 5,
+    id: 8,
+  },
+  {
+    playerOneScore: 14,
+    playerTwoScore: 1,
+    id: 9,
+  },
+  {
+    playerOneScore: 15,
+    playerTwoScore: 0,
+    id: 10,
+  },
+  {
+    playerOneScore: 0,
+    playerTwoScore: 15,
+    id: 11,
+  },
+  {
+    playerOneScore: 11,
+    playerTwoScore: 4,
+    id: 12,
+  },
+  {
+    playerOneScore: 2,
+    playerTwoScore: 13,
+    id: 13,
+  },
+  {
+    playerOneScore: 15,
+    playerTwoScore: 0,
+    id: 14,
+  },
+  {
+    playerOneScore: 14,
+    playerTwoScore: 1,
+    id: 15,
+  },
+  {
+    playerOneScore: 4,
+    playerTwoScore: 11,
+    id: 16,
+  },
+  {
+    playerOneScore: 7,
+    playerTwoScore: 8,
+    id: 17,
+  },
+  {
+    playerOneScore: 4,
+    playerTwoScore: 11,
+    id: 18,
+  },
+  {
+    playerOneScore: 13,
+    playerTwoScore: 2,
+    id: 19,
+  },
 ];
+
+interface GameScores {
+  playerOneScore: number;
+  playerTwoScore: number;
+  id: number;
+}
 
 let playerOneRating = 0;
 let playerTwoRating = 0;
+
+let playerOneScore, playerTwoScore;
 
 let scoresMap: { [name: string]: number } = {};
 
 scoresMap["Joe W"] = 0;
 scoresMap["Todd C"] = 0;
+
 interface ScoreTableProps {
   showRatings: boolean;
 }
 
 const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
-  let playerOneScore = "";
-  let playerTwoScore = "";
-
   const handleScoreInput = (event: ChangeEvent<HTMLInputElement>) => {
     console.log(event);
     const enteredScore = Number(event.target.value);
@@ -80,9 +170,9 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {gameData.map((game) => (
+          {GAME_DATA.map((game) => (
             <TableRow
-              key={game.playerOneScore}
+              key={game.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row" align="center">
@@ -96,6 +186,11 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
           <TableRow
             key={-1}
             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            style={{
+              position: "sticky",
+              bottom: 0,
+              backgroundColor: "#f2f2f2",
+            }}
           >
             <TableCell component="th" scope="row" align="center">
               <TextField
