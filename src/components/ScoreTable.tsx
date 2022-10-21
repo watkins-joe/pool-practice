@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -145,9 +145,20 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
   };
 
   return (
-    <TableContainer sx={{ maxHeight: "100vh" }}>
-      <Table stickyHeader aria-label="simple table">
-        <TableHead>
+    <>
+      <Table aria-label="simple table">
+        <TableHead
+          sx={{
+            [`& .${tableCellClasses.root}`]: {
+              borderBottom: "none",
+            },
+          }}
+          style={{
+            position: "sticky",
+            top: 0,
+            backgroundColor: "rgb(242, 242, 242)",
+          }}
+        >
           <TableRow>
             <TableCell align="center" padding="none">
               Rating:
@@ -183,33 +194,34 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
               </TableCell>
             </TableRow>
           ))}
-          <TableRow
-            key={-1}
-            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            style={{
-              position: "sticky",
-              bottom: 0,
-              backgroundColor: "#f2f2f2",
-            }}
-          >
-            <TableCell component="th" scope="row" align="center">
-              <TextField
-                type="number"
-                id="playerOneScore"
-                onChange={handleScoreInput}
-              />
-            </TableCell>
-            <TableCell component="th" scope="row" align="center">
-              <TextField
-                type="number"
-                id="playerTwoScore"
-                onChange={handleScoreInput}
-              />
-            </TableCell>
-          </TableRow>
         </TableBody>
       </Table>
-    </TableContainer>
+      <Table
+        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+        style={{
+          position: "sticky",
+          bottom: 0,
+          backgroundColor: "#f2f2f2",
+        }}
+      >
+        <TableRow>
+          <TableCell component="th" scope="row" align="center">
+            <TextField
+              type="number"
+              id="playerOneScore"
+              onChange={handleScoreInput}
+            />
+          </TableCell>
+          <TableCell component="th" scope="row" align="center">
+            <TextField
+              type="number"
+              id="playerTwoScore"
+              onChange={handleScoreInput}
+            />
+          </TableCell>
+        </TableRow>
+      </Table>
+    </>
   );
 };
 

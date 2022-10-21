@@ -13,14 +13,14 @@ function App() {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      {/* <div style={{ display: "flex", justifyContent: "center" }}>
         <FormGroup>
           <FormControlLabel
             control={<Checkbox onChange={handleShowRatingsChanges} />}
             label="Show ratings?"
           />
         </FormGroup>
-      </div>
+      </div> */}
 
       <ScoreTable showRatings={showRatings} />
     </>
