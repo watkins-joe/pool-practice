@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, MouseEventHandler, useRef, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Button, Stack, TextField } from "@mui/material";
 
-const GAME_DATA: GameScores[] = [
+let GAME_DATA: GameScores[] = [
   {
     playerOneScore: 6,
     playerTwoScore: 9,
@@ -131,17 +131,30 @@ interface ScoreTableProps {
 }
 
 const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
+  const [games, setGames] = useState<GameScores[]>([]);
+  const [score, setScore] = useState(0);
+
   const handleScoreInput = (event: ChangeEvent<HTMLInputElement>) => {
     console.log(event);
     const enteredScore = Number(event.target.value);
 
-    // check which input the event is from, update opposite input respectively
-    console.log(event.target.value);
-    if (event.target.id === "playerOneScore") {
-      playerTwoScore = (15 - enteredScore).toString();
-    } else {
-      playerOneScore = (15 - enteredScore).toString();
-    }
+    setScore(enteredScore);
+  };
+
+  const handleAddScore = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(score);
+    console.log(games);
+
+    const newID = Math.floor(Math.random() * 1000);
+
+    setGames((prevGames) => [
+      ...prevGames,
+      {
+        playerOneScore: score,
+        playerTwoScore: 15 - score,
+        id: newID,
+      },
+    ]);
   };
 
   return (
@@ -181,9 +194,10 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {GAME_DATA.map((game) => (
+          {games.map((game) => (
             <TableRow
               key={game.id}
+              id={String(game.id)}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row" align="center">
@@ -212,11 +226,13 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
             type="number"
             id="playerTwoScore"
             label={`Score for ${Object.keys(scoresMap)[0]}`}
+            onChange={handleScoreInput}
+            placeholder={"0"}
           />
           <Button variant="contained" size="large" color="error">
             Reset
           </Button>
-          <Button variant="contained" size="large">
+          <Button variant="contained" size="large" onClick={handleAddScore}>
             Add score
           </Button>
         </Stack>
