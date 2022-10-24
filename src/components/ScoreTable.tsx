@@ -5,7 +5,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { TextField } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 
 const GAME_DATA: GameScores[] = [
   {
@@ -136,7 +136,7 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
     const enteredScore = Number(event.target.value);
 
     // check which input the event is from, update opposite input respectively
-    console.log(event.target.id);
+    console.log(event.target.value);
     if (event.target.id === "playerOneScore") {
       playerTwoScore = (15 - enteredScore).toString();
     } else {
@@ -196,31 +196,31 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
           ))}
         </TableBody>
       </Table>
-      <Table
-        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+      <div
         style={{
           position: "sticky",
           bottom: 0,
           backgroundColor: "#f2f2f2",
         }}
       >
-        <TableRow>
-          <TableCell component="th" scope="row" align="center">
-            <TextField
-              type="number"
-              id="playerOneScore"
-              onChange={handleScoreInput}
-            />
-          </TableCell>
-          <TableCell component="th" scope="row" align="center">
-            <TextField
-              type="number"
-              id="playerTwoScore"
-              onChange={handleScoreInput}
-            />
-          </TableCell>
-        </TableRow>
-      </Table>
+        <Stack
+          direction={"row"}
+          spacing={2}
+          style={{ padding: "1rem", justifyContent: "center" }}
+        >
+          <TextField
+            type="number"
+            id="playerTwoScore"
+            label={`Score for ${Object.keys(scoresMap)[0]}`}
+          />
+          <Button variant="contained" size="large" color="error">
+            Reset
+          </Button>
+          <Button variant="contained" size="large">
+            Add score
+          </Button>
+        </Stack>
+      </div>
     </>
   );
 };
