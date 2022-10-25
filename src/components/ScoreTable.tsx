@@ -1,4 +1,12 @@
-import { ChangeEvent, FC, MouseEventHandler, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  FormEventHandler,
+  MouseEventHandler,
+  useRef,
+  useState,
+} from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -138,12 +146,20 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
     console.log(event);
     const enteredScore = Number(event.target.value);
 
-    setScore(enteredScore);
+    setScore(Number(enteredScore));
   };
 
-  const handleAddScore = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmitScore = (event: any) => {
     console.log(score);
     console.log(games);
+
+    console.log(event);
+
+    event.preventDefault();
+
+    const data = new FormData(event.target);
+
+    console.log(data.get("playerOneScore"));
 
     const newID = Math.floor(Math.random() * 1000);
 
@@ -155,6 +171,13 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
         id: newID,
       },
     ]);
+
+    handleResetScore(event);
+  };
+
+  const handleResetScore = (event: any) => {
+    event.target.reset();
+    setScore(0);
   };
 
   return (
@@ -217,25 +240,35 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
           backgroundColor: "#f2f2f2",
         }}
       >
-        <Stack
-          direction={"row"}
-          spacing={2}
-          style={{ padding: "1rem", justifyContent: "center" }}
+        <form
+          onSubmit={handleSubmitScore}
+          style={{
+            padding: "1rem",
+            display: "flex",
+            justifyContent: "space-evenly",
+          }}
         >
           <TextField
             type="number"
-            id="playerTwoScore"
+            id="playerOneScore"
+            name="playerOneScore"
             label={`Score for ${Object.keys(scoresMap)[0]}`}
             onChange={handleScoreInput}
             placeholder={"0"}
           />
-          <Button variant="contained" size="large" color="error">
+          <Button
+            variant="contained"
+            size="large"
+            color="error"
+            type="reset"
+            onReset={handleResetScore}
+          >
             Reset
           </Button>
-          <Button variant="contained" size="large" onClick={handleAddScore}>
+          <Button variant="contained" size="large" type="submit">
             Add score
           </Button>
-        </Stack>
+        </form>
       </div>
     </>
   );
