@@ -4,6 +4,7 @@ import {
   FormEvent,
   FormEventHandler,
   MouseEventHandler,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -141,6 +142,12 @@ interface ScoreTableProps {
 const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
   const [games, setGames] = useState<GameScores[]>([]);
   const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    const listOfScores = document.querySelectorAll("tr");
+    const lastScore = listOfScores[listOfScores.length - 1];
+    lastScore.scrollIntoView();
+  }, [games]);
 
   const handleScoreInput = (event: ChangeEvent<HTMLInputElement>) => {
     console.log(event);
