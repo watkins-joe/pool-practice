@@ -1,123 +1,10 @@
-import {
-  ChangeEvent,
-  FC,
-  FormEvent,
-  FormEventHandler,
-  MouseEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Button, Stack, TextField } from "@mui/material";
-
-let GAME_DATA: GameScores[] = [
-  {
-    playerOneScore: 6,
-    playerTwoScore: 9,
-    id: 0,
-  },
-  {
-    playerOneScore: 12,
-    playerTwoScore: 3,
-    id: 1,
-  },
-  {
-    playerOneScore: 15,
-    playerTwoScore: 0,
-    id: 2,
-  },
-  {
-    playerOneScore: 4,
-    playerTwoScore: 11,
-    id: 3,
-  },
-  {
-    playerOneScore: 5,
-    playerTwoScore: 10,
-    id: 4,
-  },
-  {
-    playerOneScore: 4,
-    playerTwoScore: 11,
-    id: 5,
-  },
-  {
-    playerOneScore: 4,
-    playerTwoScore: 11,
-    id: 6,
-  },
-  {
-    playerOneScore: 2,
-    playerTwoScore: 13,
-    id: 7,
-  },
-  {
-    playerOneScore: 10,
-    playerTwoScore: 5,
-    id: 8,
-  },
-  {
-    playerOneScore: 14,
-    playerTwoScore: 1,
-    id: 9,
-  },
-  {
-    playerOneScore: 15,
-    playerTwoScore: 0,
-    id: 10,
-  },
-  {
-    playerOneScore: 0,
-    playerTwoScore: 15,
-    id: 11,
-  },
-  {
-    playerOneScore: 11,
-    playerTwoScore: 4,
-    id: 12,
-  },
-  {
-    playerOneScore: 2,
-    playerTwoScore: 13,
-    id: 13,
-  },
-  {
-    playerOneScore: 15,
-    playerTwoScore: 0,
-    id: 14,
-  },
-  {
-    playerOneScore: 14,
-    playerTwoScore: 1,
-    id: 15,
-  },
-  {
-    playerOneScore: 4,
-    playerTwoScore: 11,
-    id: 16,
-  },
-  {
-    playerOneScore: 7,
-    playerTwoScore: 8,
-    id: 17,
-  },
-  {
-    playerOneScore: 4,
-    playerTwoScore: 11,
-    id: 18,
-  },
-  {
-    playerOneScore: 13,
-    playerTwoScore: 2,
-    id: 19,
-  },
-];
+import { Button, TextField } from "@mui/material";
 
 interface GameScores {
   playerOneScore: number;
@@ -125,15 +12,10 @@ interface GameScores {
   id: number;
 }
 
-let playerOneRating = 0;
-let playerTwoRating = 0;
+let scoresMap: { [name: string]: { totalScore: number; rating: number } } = {};
 
-let playerOneScore, playerTwoScore;
-
-let scoresMap: { [name: string]: number } = {};
-
-scoresMap["Joe W"] = 0;
-scoresMap["Todd C"] = 0;
+scoresMap["Joe W"] = { totalScore: 0, rating: 0 };
+scoresMap["Todd C"] = { totalScore: 0, rating: 0 };
 
 interface ScoreTableProps {
   showRatings: boolean;
@@ -146,6 +28,7 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
   useEffect(() => {
     const listOfScores = document.querySelectorAll("tr");
     const lastScore = listOfScores[listOfScores.length - 1];
+    updateRatings(games);
     lastScore.scrollIntoView();
   }, [games]);
 
@@ -187,6 +70,24 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
     setScore(0);
   };
 
+  /**
+   * calculating scores:
+   * 1. take old score (0)
+   * 2. add new score to old score (0 + 8)
+   * 3. divide new score by total number of games played (games.length)
+   * 4. this number is now the the rating for that given player.
+   * 5. repeat this process after each game is scored.
+   */
+
+  const updateRatings = (gamesList: GameScores[]) => {
+    const mostRecentGame = gamesList[gamesList.length - 1];
+    if (!mostRecentGame) return;
+    scoresMap["Joe W"].totalScore += mostRecentGame.playerOneScore;
+    scoresMap["Joe W"].rating = scoresMap["Joe W"].totalScore / games.length;
+    scoresMap["Todd C"].totalScore += mostRecentGame.playerTwoScore;
+    scoresMap["Todd C"].rating = scoresMap["Todd C"].totalScore / games.length;
+  };
+
   return (
     <>
       <Table aria-label="simple table">
@@ -212,10 +113,14 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
           </TableRow>
           <TableRow>
             <TableCell align="center" padding="none">
-              {showRatings ? playerOneRating : "?"}
+              {!showRatings
+                ? Math.round(scoresMap["Joe W"].rating * 10) / 10
+                : "?"}
             </TableCell>
             <TableCell align="center" padding="none">
-              {showRatings ? playerTwoRating : "?"}
+              {!showRatings
+                ? Math.round(scoresMap["Todd C"].rating * 10) / 10
+                : "?"}
             </TableCell>
           </TableRow>
           <TableRow>
