@@ -4,7 +4,13 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Button, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+} from "@mui/material";
 
 interface GameScores {
   playerOneScore: number;
@@ -17,20 +23,25 @@ let scoresMap: { [name: string]: { totalScore: number; rating: number } } = {};
 scoresMap["Joe W"] = { totalScore: 0, rating: 0 };
 scoresMap["Todd C"] = { totalScore: 0, rating: 0 };
 
-interface ScoreTableProps {
-  showRatings: boolean;
-}
-
-const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
+const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
   const [score, setScore] = useState(0);
+  const [showRatings, updateShowRatings] = useState(false);
+  const [ratings, updateRatings] = useState({
+    playerOneRating: 0,
+    playerTwoRating: 0,
+  });
 
   useEffect(() => {
     const listOfScores = document.querySelectorAll("tr");
     const lastScore = listOfScores[listOfScores.length - 1];
-    updateRatings(games);
+    calcRatings(games);
     lastScore.scrollIntoView();
   }, [games]);
+
+  const handleShowRatingsChanges = () => {
+    updateShowRatings(!showRatings);
+  };
 
   const handleScoreInput = (event: ChangeEvent<HTMLInputElement>) => {
     console.log(event);
@@ -70,22 +81,23 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
     setScore(0);
   };
 
-  /**
-   * calculating scores:
-   * 1. take old score (0)
-   * 2. add new score to old score (0 + 8)
-   * 3. divide new score by total number of games played (games.length)
-   * 4. this number is now the the rating for that given player.
-   * 5. repeat this process after each game is scored.
-   */
-
-  const updateRatings = (gamesList: GameScores[]) => {
+  const calcRatings = (gamesList: GameScores[]) => {
     const mostRecentGame = gamesList[gamesList.length - 1];
     if (!mostRecentGame) return;
     scoresMap["Joe W"].totalScore += mostRecentGame.playerOneScore;
-    scoresMap["Joe W"].rating = scoresMap["Joe W"].totalScore / games.length;
+    scoresMap["Joe W"].rating =
+      Math.round((scoresMap["Joe W"].totalScore / games.length) * 10) / 10;
     scoresMap["Todd C"].totalScore += mostRecentGame.playerTwoScore;
-    scoresMap["Todd C"].rating = scoresMap["Todd C"].totalScore / games.length;
+    scoresMap["Todd C"].rating =
+      Math.round((scoresMap["Todd C"].totalScore / games.length) * 10) / 10;
+
+    updateRatings((prevState) => {
+      return {
+        ...prevState,
+        playerOneRating: scoresMap["Joe W"].rating,
+        playerTwoRating: scoresMap["Todd C"].rating,
+      };
+    });
   };
 
   return (
@@ -105,6 +117,21 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
         >
           <TableRow>
             <TableCell align="center" padding="none">
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleShowRatingsChanges} />}
+                    label="Show ratings?"
+                  />
+                </FormGroup>
+              </div>
+            </TableCell>
+            <TableCell align="center" padding="none">
+              Total games played: {games.length}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center" padding="none">
               Rating:
             </TableCell>
             <TableCell align="center" padding="none">
@@ -113,14 +140,10 @@ const ScoreTable: FC<ScoreTableProps> = ({ showRatings }) => {
           </TableRow>
           <TableRow>
             <TableCell align="center" padding="none">
-              {!showRatings
-                ? Math.round(scoresMap["Joe W"].rating * 10) / 10
-                : "?"}
+              {showRatings ? ratings.playerOneRating : "?"}
             </TableCell>
             <TableCell align="center" padding="none">
-              {!showRatings
-                ? Math.round(scoresMap["Todd C"].rating * 10) / 10
-                : "?"}
+              {showRatings ? ratings.playerTwoRating : "?"}
             </TableCell>
           </TableRow>
           <TableRow>
