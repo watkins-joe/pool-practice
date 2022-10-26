@@ -6,9 +6,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {
   Button,
-  Checkbox,
   FormControlLabel,
   FormGroup,
+  Switch,
   TextField,
 } from "@mui/material";
 
@@ -120,8 +120,9 @@ const ScoreTable: FC = () => {
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <FormGroup>
                   <FormControlLabel
-                    control={<Checkbox onChange={handleShowRatingsChanges} />}
+                    control={<Switch onChange={handleShowRatingsChanges} />}
                     label="Show ratings?"
+                    labelPlacement="start"
                   />
                 </FormGroup>
               </div>
