@@ -27,7 +27,7 @@ scoresMap["Todd C"] = { totalScore: 0 };
 
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState("");
   const [showRatings, updateShowRatings] = useState(false);
   const [ratings, updateRatings] = useState({
     playerOneRating: 0,
@@ -39,53 +39,49 @@ const ScoreTable: FC = () => {
     const lastScore = listOfScores[listOfScores.length - 1];
     calcRatings(games);
     lastScore.scrollIntoView();
-    console.log(scoresMap);
+    // console.log(scoresMap);
   }, [games]);
 
   const handleShowRatingsChanges = () => {
     updateShowRatings(!showRatings);
   };
 
-  const handleScoreInput = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event);
-    const enteredScore = Number(event.target.value);
-
-    setScore(Number(enteredScore));
+  const handleScoreInput = (event: any) => {
+    // console.log(event);
+    const enteredScore = event.target.value;
+    if (Number(enteredScore) < 0 || Number(enteredScore) > 15) return;
+    console.log(`enteredScore: ${enteredScore}`);
+    setScore(enteredScore);
   };
 
   const handleSubmitScore = (event: any) => {
-    console.log(score);
-    console.log(games);
+    // console.log(score);
+    // console.log(games);
 
-    console.log(event);
+    // console.log(event);
 
     event.preventDefault();
 
-    const data = new FormData(event.target);
-
-    console.log(data.get("playerOneScore"));
-
     const newID = Math.floor(Math.random() * 1000);
 
-    scoresMap["Joe W"].totalScore += score;
-    scoresMap["Todd C"].totalScore += 15 - score;
+    scoresMap["Joe W"].totalScore += Number(score);
+    scoresMap["Todd C"].totalScore += 15 - Number(score);
 
+    // console.log(`score before adding score to game: ${score}`);
     setGames((prevGames) => [
       ...prevGames,
       {
-        playerOneScore: score,
-        playerTwoScore: 15 - score,
+        playerOneScore: Number(score),
+        playerTwoScore: 15 - Number(score),
         id: newID,
       },
     ]);
 
-    handleResetScore(event);
+    handleResetScore();
   };
 
-  const handleResetScore = (event: any) => {
-    event.target.reset();
-    setScore(0);
-    event.target.focus();
+  const handleResetScore = () => {
+    setScore("");
   };
 
   const calcRatings = (gamesList: GameScores[]) => {
@@ -124,15 +120,6 @@ const ScoreTable: FC = () => {
       });
     });
   };
-
-  /**
-   * 1. click on delete button
-   * 2. grab GameScores to be deleted (object)
-   * 3. subtract player scores from GameScores values
-   * 4. update total player scores
-   * 5. actually remove game from games array
-   * 6. recalc player ratings based on new games array length
-   */
 
   return (
     <>
@@ -242,8 +229,10 @@ const ScoreTable: FC = () => {
             id="playerOneScore"
             name="playerOneScore"
             label={`Score for ${Object.keys(scoresMap)[0]}`}
-            onChange={handleScoreInput}
+            onChange={(event) => handleScoreInput(event)}
             placeholder={"0"}
+            value={score}
+            autoFocus
           />
           <Button
             variant="contained"
