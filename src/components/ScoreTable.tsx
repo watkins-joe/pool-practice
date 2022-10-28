@@ -4,10 +4,12 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Button,
   FormControlLabel,
   FormGroup,
+  IconButton,
   Switch,
   TextField,
 } from "@mui/material";
@@ -18,10 +20,10 @@ interface GameScores {
   id: number;
 }
 
-let scoresMap: { [name: string]: { totalScore: number; rating: number } } = {};
+let scoresMap: { [name: string]: { totalScore: number } } = {};
 
-scoresMap["Joe W"] = { totalScore: 0, rating: 0 };
-scoresMap["Todd C"] = { totalScore: 0, rating: 0 };
+scoresMap["Joe W"] = { totalScore: 0 };
+scoresMap["Todd C"] = { totalScore: 0 };
 
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
@@ -37,6 +39,7 @@ const ScoreTable: FC = () => {
     const lastScore = listOfScores[listOfScores.length - 1];
     calcRatings(games);
     lastScore.scrollIntoView();
+    console.log(scoresMap);
   }, [games]);
 
   const handleShowRatingsChanges = () => {
@@ -64,6 +67,9 @@ const ScoreTable: FC = () => {
 
     const newID = Math.floor(Math.random() * 1000);
 
+    scoresMap["Joe W"].totalScore += score;
+    scoresMap["Todd C"].totalScore += 15 - score;
+
     setGames((prevGames) => [
       ...prevGames,
       {
@@ -79,26 +85,54 @@ const ScoreTable: FC = () => {
   const handleResetScore = (event: any) => {
     event.target.reset();
     setScore(0);
+    event.target.focus();
   };
 
   const calcRatings = (gamesList: GameScores[]) => {
     const mostRecentGame = gamesList[gamesList.length - 1];
-    if (!mostRecentGame) return;
-    scoresMap["Joe W"].totalScore += mostRecentGame.playerOneScore;
-    scoresMap["Joe W"].rating =
-      Math.round((scoresMap["Joe W"].totalScore / games.length) * 10) / 10;
-    scoresMap["Todd C"].totalScore += mostRecentGame.playerTwoScore;
-    scoresMap["Todd C"].rating =
-      Math.round((scoresMap["Todd C"].totalScore / games.length) * 10) / 10;
+    if (!mostRecentGame) {
+      updateRatings((prevState) => {
+        return {
+          ...prevState,
+          playerOneRating: 0,
+          playerTwoRating: 0,
+        };
+      });
+      return;
+    }
 
     updateRatings((prevState) => {
       return {
         ...prevState,
-        playerOneRating: scoresMap["Joe W"].rating,
-        playerTwoRating: scoresMap["Todd C"].rating,
+        playerOneRating:
+          Math.round((scoresMap["Joe W"].totalScore / games.length) * 10) / 10,
+        playerTwoRating:
+          Math.round((scoresMap["Todd C"].totalScore / games.length) * 10) / 10,
       };
     });
   };
+
+  const handleDeleteGame = (gameIndex: number) => {
+    const deletedGame = games[gameIndex];
+
+    scoresMap["Joe W"].totalScore -= deletedGame.playerOneScore;
+    scoresMap["Todd C"].totalScore -= deletedGame.playerTwoScore;
+
+    setGames((prevGames) => {
+      return prevGames.filter((_, index) => {
+        return gameIndex !== index;
+      });
+    });
+  };
+
+  /**
+   * 1. click on delete button
+   * 2. grab GameScores to be deleted (object)
+   * 3. subtract player scores from GameScores values
+   * 4. update total player scores
+   * 5. actually remove game from games array
+   * 6. recalc player ratings based on new games array length
+   */
 
   return (
     <>
@@ -113,6 +147,7 @@ const ScoreTable: FC = () => {
             position: "sticky",
             top: 0,
             backgroundColor: "rgb(242, 242, 242)",
+            zIndex: 1,
           }}
         >
           <TableRow>
@@ -153,13 +188,31 @@ const ScoreTable: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {games.map((game) => (
+          {games.map((game, index) => (
             <TableRow
               key={game.id}
               id={String(game.id)}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row" align="center">
+              <TableCell
+                component="th"
+                scope="row"
+                align="center"
+                style={{ position: "relative" }}
+              >
+                <IconButton
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    height: "100%",
+                  }}
+                  color="error"
+                  type="submit"
+                  onClick={() => handleDeleteGame(index)}
+                >
+                  <ClearIcon />
+                </IconButton>
                 {game.playerOneScore}
               </TableCell>
               <TableCell component="th" scope="row" align="center">
