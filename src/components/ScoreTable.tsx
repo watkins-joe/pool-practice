@@ -4,12 +4,14 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   Button,
   FormControlLabel,
   FormGroup,
   IconButton,
+  InputAdornment,
   Switch,
   TextField,
 } from "@mui/material";
@@ -231,18 +233,28 @@ const ScoreTable: FC = () => {
             onChange={(event) => handleScoreInput(event)}
             placeholder={"0"}
             value={score}
+            style={{ maxWidth: "10rem" }}
             autoFocus
+            InputProps={{
+              endAdornment: (
+                <>
+                  {score && (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => handleResetScore()}>
+                        <ClearIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  )}
+                </>
+              ),
+            }}
           />
           <Button
-            variant="contained"
-            size="large"
-            color="error"
-            type="reset"
-            onReset={handleResetScore}
+            variant="outlined"
+            startIcon={<CheckRoundedIcon />}
+            color="success"
+            type="submit"
           >
-            Reset
-          </Button>
-          <Button variant="contained" size="large" type="submit">
             Add score
           </Button>
         </form>
