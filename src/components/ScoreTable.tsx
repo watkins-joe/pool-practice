@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -49,8 +49,7 @@ const ScoreTable: FC = () => {
   const handleScoreInput = (event: any) => {
     // console.log(event);
     const enteredScore = event.target.value;
-    if (Number(enteredScore) < 0 || Number(enteredScore) > 15) return;
-    console.log(`enteredScore: ${enteredScore}`);
+    // console.log(`enteredScore: ${enteredScore}`);
     setScore(enteredScore);
   };
 
