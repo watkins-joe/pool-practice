@@ -30,7 +30,7 @@ scoresMap["Todd C"] = { totalScore: 0 };
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
   const [score, setScore] = useState("");
-  const [scoreInputError, setScoreInputError] = useState(false);
+  const [scoreInputHasError, setScoreInputHasError] = useState(false);
   const [showRatings, updateShowRatings] = useState(false);
   const [ratings, updateRatings] = useState({
     playerOneRating: 0,
@@ -54,9 +54,9 @@ const ScoreTable: FC = () => {
     let enteredScore = event.target.value.trim();
     // console.log(`enteredScore: ${enteredScore}`);
     if (!enteredScore || enteredScore < 0 || enteredScore > 15) {
-      setScoreInputError(true);
+      setScoreInputHasError(true);
     } else {
-      setScoreInputError(false);
+      setScoreInputHasError(false);
     }
 
     setScore(enteredScore);
@@ -69,7 +69,7 @@ const ScoreTable: FC = () => {
     // console.log(event);
     event.preventDefault();
 
-    if (scoreInputError) return;
+    if (scoreInputHasError) return;
 
     const newID = Math.floor(Math.random() * 1000);
 
@@ -91,7 +91,7 @@ const ScoreTable: FC = () => {
 
   const handleResetScore = () => {
     setScore("");
-    setScoreInputError(false);
+    setScoreInputHasError(false);
   };
 
   const calcRatings = (gamesList: GameScores[]) => {
@@ -243,8 +243,8 @@ const ScoreTable: FC = () => {
             placeholder={"0"}
             value={score}
             style={{ maxWidth: "10rem" }}
-            helperText={scoreInputError && "Enter a score from 0 to 15"}
-            error={scoreInputError}
+            helperText={scoreInputHasError && "Enter a score from 0 to 15"}
+            error={scoreInputHasError}
             autoFocus
             InputProps={{
               endAdornment: (
@@ -265,6 +265,7 @@ const ScoreTable: FC = () => {
             startIcon={<CheckRoundedIcon />}
             color="success"
             type="submit"
+            disabled={scoreInputHasError}
           >
             Add score
           </Button>
