@@ -133,7 +133,7 @@ const ScoreTable: FC = () => {
 
   return (
     <>
-      <Table aria-label="simple table">
+      <Table aria-label="simple table" style={{ marginBottom: "88px" }}>
         <TableHead
           sx={{
             [`& .${tableCellClasses.root}`]: {
@@ -186,11 +186,7 @@ const ScoreTable: FC = () => {
         </TableHead>
         <TableBody>
           {games.map((game, index) => (
-            <TableRow
-              key={game.id}
-              id={String(game.id)}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
+            <TableRow key={game.id} id={String(game.id)}>
               <TableCell
                 component="th"
                 scope="row"
@@ -221,9 +217,10 @@ const ScoreTable: FC = () => {
       </Table>
       <div
         style={{
-          position: "sticky",
+          position: "fixed",
           bottom: 0,
           backgroundColor: "#f2f2f2",
+          width: "100%",
         }}
       >
         <form
