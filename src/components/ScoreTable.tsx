@@ -186,7 +186,11 @@ const ScoreTable: FC = () => {
         </TableHead>
         <TableBody>
           {games.map((game, index) => (
-            <TableRow key={game.id} id={String(game.id)}>
+            <TableRow
+              key={game.id}
+              id={String(game.id)}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
               <TableCell
                 component="th"
                 scope="row"
