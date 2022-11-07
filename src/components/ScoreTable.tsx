@@ -133,7 +133,7 @@ const ScoreTable: FC = () => {
 
   return (
     <>
-      <Table aria-label="simple table">
+      <Table aria-label="simple table" style={{ marginBottom: "88px" }}>
         <TableHead
           sx={{
             [`& .${tableCellClasses.root}`]: {
@@ -221,9 +221,10 @@ const ScoreTable: FC = () => {
       </Table>
       <div
         style={{
-          position: "sticky",
+          position: "fixed",
           bottom: 0,
           backgroundColor: "#f2f2f2",
+          width: "100%",
         }}
       >
         <form
