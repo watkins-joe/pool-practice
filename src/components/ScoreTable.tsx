@@ -163,22 +163,26 @@ const ScoreTable: FC = () => {
               Total games played: {games.length}
             </TableCell>
           </TableRow>
-          <TableRow>
-            <TableCell align="center" padding="none">
-              Rating:
-            </TableCell>
-            <TableCell align="center" padding="none">
-              Rating:
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="center" padding="none">
-              {showRatings ? ratings.playerOneRating : "?"}
-            </TableCell>
-            <TableCell align="center" padding="none">
-              {showRatings ? ratings.playerTwoRating : "?"}
-            </TableCell>
-          </TableRow>
+          {showRatings && (
+            <>
+              <TableRow>
+                <TableCell align="center" padding="none">
+                  Rating:
+                </TableCell>
+                <TableCell align="center" padding="none">
+                  Rating:
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="center" padding="none">
+                  {ratings.playerOneRating}
+                </TableCell>
+                <TableCell align="center" padding="none">
+                  {ratings.playerOneRating}
+                </TableCell>
+              </TableRow>
+            </>
+          )}
           <TableRow>
             <TableCell align="center">Joe W</TableCell>
             <TableCell align="center">Todd C</TableCell>
