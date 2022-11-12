@@ -178,7 +178,7 @@ const ScoreTable: FC = () => {
                   {ratings.playerOneRating}
                 </TableCell>
                 <TableCell align="center" padding="none">
-                  {ratings.playerOneRating}
+                  {ratings.playerTwoRating}
                 </TableCell>
               </TableRow>
             </>
