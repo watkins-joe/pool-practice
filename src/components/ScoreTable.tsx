@@ -15,6 +15,7 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
+import Welcome from "./Welcome";
 
 interface GameScores {
   playerOneScore: number;
@@ -133,6 +134,7 @@ const ScoreTable: FC = () => {
 
   return (
     <>
+      {games.length === 0 && <Welcome />}
       <Table aria-label="simple table" style={{ marginBottom: "88px" }}>
         <TableHead
           sx={{
