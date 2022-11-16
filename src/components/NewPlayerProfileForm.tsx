@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   FormControl,
   RadioGroup,
@@ -9,6 +9,19 @@ import {
 } from "@mui/material";
 
 const NewPlayerProfileForm: FC = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchInput = (event: any) => {
+    const enteredQuery = event.target.value.trim();
+
+    setSearchQuery(enteredQuery);
+  };
+
+  const handleSubmitSearch = (event: any) => {
+    event.preventDefault();
+    console.log(searchQuery);
+  };
+
   return (
     <>
       <form
@@ -17,12 +30,16 @@ const NewPlayerProfileForm: FC = () => {
           justifyContent: "center",
           marginBottom: "1rem",
         }}
+        onSubmit={(event) => handleSubmitSearch(event)}
       >
         <TextField
           id="standard-basic"
           label="Enter player name"
           variant="standard"
           size="small"
+          value={searchQuery}
+          onChange={(event) => handleSearchInput(event)}
+          autoFocus
         />
         <Button
           variant="outlined"

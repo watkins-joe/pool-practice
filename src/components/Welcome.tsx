@@ -58,7 +58,6 @@ const Welcome: FC = () => {
             variant="outlined"
             // startIcon={<CheckRoundedIcon />}
             color="success"
-            type="submit"
             // disabled={scoreInputHasError}
             onClick={(event) => handleLoadGame(event)}
           >

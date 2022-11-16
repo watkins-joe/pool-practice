@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   FormControl,
   RadioGroup,
@@ -8,6 +8,12 @@ import {
 import NewPlayerProfileForm from "./NewPlayerProfileForm";
 
 const PlayerSelectRadio: FC = () => {
+  const [selectedOption, setSelectedOption] = useState("newPlayer");
+
+  const handleOptionChange = (event: any) => {
+    console.log(event.target.value);
+    setSelectedOption(event.target.value);
+  };
   return (
     <>
       <FormControl>
@@ -20,20 +26,26 @@ const PlayerSelectRadio: FC = () => {
             display: "flex",
             justifyContent: "center",
           }}
+          defaultValue="newPlayer"
+          onChange={(event) => handleOptionChange(event)}
         >
           <FormControlLabel
             value="newPlayer"
             control={<Radio />}
-            label="New Profiles"
+            label="New Players"
           />
           <FormControlLabel
             value="existingPlayer"
             control={<Radio />}
-            label="Load Profiles"
+            label="Load Players"
           />
         </RadioGroup>
       </FormControl>
-      <NewPlayerProfileForm />
+      {selectedOption === "existingPlayer" ? (
+        <div>new player form</div>
+      ) : (
+        <NewPlayerProfileForm />
+      )}
     </>
   );
 };
