@@ -6,6 +6,7 @@ import {
   Radio,
 } from "@mui/material";
 import LoadPlayerForm from "./LoadPlayerForm";
+import NewPlayerForm from "./NewPlayerForm";
 
 const PlayerSelectRadio: FC = () => {
   const [selectedOption, setSelectedOption] = useState("newPlayer");
@@ -41,11 +42,7 @@ const PlayerSelectRadio: FC = () => {
           />
         </RadioGroup>
       </FormControl>
-      {selectedOption === "newPlayer" ? (
-        <div>new player form</div>
-      ) : (
-        <LoadPlayerForm />
-      )}
+      {selectedOption === "newPlayer" ? <NewPlayerForm /> : <LoadPlayerForm />}
     </>
   );
 };
