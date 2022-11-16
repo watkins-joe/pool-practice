@@ -5,7 +5,7 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
-import NewPlayerProfileForm from "./NewPlayerProfileForm";
+import LoadPlayerForm from "./LoadPlayerForm";
 
 const PlayerSelectRadio: FC = () => {
   const [selectedOption, setSelectedOption] = useState("newPlayer");
@@ -41,10 +41,10 @@ const PlayerSelectRadio: FC = () => {
           />
         </RadioGroup>
       </FormControl>
-      {selectedOption === "existingPlayer" ? (
+      {selectedOption === "newPlayer" ? (
         <div>new player form</div>
       ) : (
-        <NewPlayerProfileForm />
+        <LoadPlayerForm />
       )}
     </>
   );
