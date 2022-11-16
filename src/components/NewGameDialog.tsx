@@ -9,6 +9,7 @@ import {
   Button,
 } from "@mui/material";
 import { FC } from "react";
+import PlayerSelectRadio from "./PlayerSelectRadio";
 
 interface LoadGameDialogProps {
   open: boolean;
@@ -25,24 +26,16 @@ const LoadGameDialog: FC<LoadGameDialogProps> = ({ open, onCancel, onOk }) => {
       open={open}
       //   {...other}
     >
-      <DialogTitle>Load Game</DialogTitle>
-      <DialogContent dividers>
-        <RadioGroup
-          //   ref={radioGroupRef}
-          aria-label="ringtone"
-          name="ringtone"
-          //   value={value}
-          //   onChange={handleChange}
-        >
-          {/* {options.map((option) => (
-            <FormControlLabel
-              value={option}
-              key={option}
-              control={<Radio />}
-              label={option}
-            />
-          ))} */}
-        </RadioGroup>
+      <DialogTitle>New Game</DialogTitle>
+      <DialogContent
+        dividers
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <PlayerSelectRadio />
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={onCancel}>

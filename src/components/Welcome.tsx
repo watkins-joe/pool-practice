@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { FC, useState } from "react";
-import LoadGameDialog from "./LoadGameDialog";
+import LoadGameDialog from "./NewGameDialog";
 
 /**
  * a. when first game saved, generate random id, store this game with this id in localStorage. on each page load, gen new id and save game. load game lists all saved games and you can choose which one or delete them there.
@@ -54,7 +54,6 @@ const Welcome: FC = () => {
         <span style={{ fontSize: "7rem" }}>🎱</span>
         <h2 style={{ marginTop: 0 }}>Ready to practice?</h2>
         <div>
-          <span>Add a score or &nbsp;</span>
           <Button
             variant="outlined"
             // startIcon={<CheckRoundedIcon />}
@@ -63,7 +62,7 @@ const Welcome: FC = () => {
             // disabled={scoreInputHasError}
             onClick={(event) => handleLoadGame(event)}
           >
-            Load game
+            New Game
           </Button>
         </div>
       </div>
