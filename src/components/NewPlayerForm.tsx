@@ -2,7 +2,10 @@ import { FC, useState } from "react";
 import { TextField, Button, Grid } from "@mui/material";
 import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
 
-const NewPlayerForm: FC<PlayerTypeRadioProps> = ({ selectedPlayer }) => {
+const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
+  selectedPlayer,
+  setPlayers,
+}) => {
   const [enteredName, setEnteredName] = useState<string>("");
 
   const handleNameInput = (event: any) => {
@@ -13,7 +16,27 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({ selectedPlayer }) => {
 
   const handleNewPlayer = (event: any) => {
     event.preventDefault();
-    console.log(enteredName);
+    if (selectedPlayer === "playerOne") {
+      setPlayers((prevState) => {
+        return {
+          ...prevState,
+          playerOne: {
+            ...prevState.playerOne,
+            name: enteredName,
+          },
+        };
+      });
+    } else if (selectedPlayer === "playerTwo") {
+      setPlayers((prevState) => {
+        return {
+          ...prevState,
+          playerTwo: {
+            ...prevState.playerTwo,
+            name: enteredName,
+          },
+        };
+      });
+    }
   };
 
   return (
