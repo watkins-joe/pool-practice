@@ -55,26 +55,24 @@ const NewPlayerForm: FC = () => {
         }}
         onSubmit={(event) => handleNameChange(event)}
       >
-        <Grid spacing={2} justifyContent="center">
-          <Grid item xs={10}>
-            <TextField
-              id="playerOne"
-              label="Enter player 1 name"
-              variant="standard"
-              size="small"
-              value={enteredNames.playerOneName}
-              onChange={(event) => handleNameInput(event)}
-              autoFocus
-            />
-            <Button
-              variant="outlined"
-              color="success"
-              type="submit"
-              style={{ marginLeft: "1rem" }}
-            >
-              Search
-            </Button>
-          </Grid>
+        <Grid justifyContent="center">
+          <TextField
+            id="playerOne"
+            label="Enter player 1 name"
+            variant="standard"
+            size="small"
+            value={enteredNames.playerOneName}
+            onChange={(event) => handleNameInput(event)}
+            autoFocus
+          />
+          <Button
+            variant="outlined"
+            color="success"
+            type="submit"
+            style={{ marginLeft: "1rem" }}
+          >
+            Confirm
+          </Button>
         </Grid>
       </form>
     </>
@@ -82,3 +80,27 @@ const NewPlayerForm: FC = () => {
 };
 
 export default NewPlayerForm;
+
+/**
+ * when new player created,
+ * load GameData of player into gameState
+ * name: newPlayerName,
+ * rating: 8.0 or 0, whatever
+ * gamesPlayed: 0,
+ *
+ * when player loaded into game
+ * load gameData of player into game State
+ * name: loadedPlayer.name
+ * rating: loadedPlayer.rating
+ * gamesPlayed: loadedPlayer.gamesPlayed
+ *
+ * on each score submission
+ *
+ * update playerOne and playerTwo's gameData and save it to localStorage
+ * playerOne.rating
+ * playerOne.gamesPlayed += 1
+ * playerTwo.rating
+ * playerTwo.gamesPlayed += 1
+ *
+ * on game delete, remove the gamePlayed from each, -= 1. undo rating calc as well.
+ */

@@ -38,6 +38,10 @@ scoresMap["playerTwo"] = { totalScore: 0 };
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
   const [score, setScore] = useState("");
+  const [players, setPlayers] = useState<Game>({
+    playerOne: { name: "Player 1", rating: 8.0, gamesPlayed: 0 },
+    playerTwo: { name: "Player 2", rating: 8.0, gamesPlayed: 0 },
+  });
   const [scoreInputHasError, setScoreInputHasError] = useState(false);
   const [showRatings, updateShowRatings] = useState(false);
   const [ratings, updateRatings] = useState({
@@ -181,17 +185,17 @@ const ScoreTable: FC = () => {
               </TableRow>
               <TableRow>
                 <TableCell align="center" padding="none">
-                  {ratings.playerOneRating}
+                  {players.playerOne.rating}
                 </TableCell>
                 <TableCell align="center" padding="none">
-                  {ratings.playerTwoRating}
+                  {players.playerTwo.rating}
                 </TableCell>
               </TableRow>
             </>
           )}
           <TableRow>
-            <TableCell align="center">playerOne</TableCell>
-            <TableCell align="center">playerTwo</TableCell>
+            <TableCell align="center">{players.playerOne.name}</TableCell>
+            <TableCell align="center">{players.playerTwo.name}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -249,7 +253,7 @@ const ScoreTable: FC = () => {
             type="number"
             id="playerOneScore"
             name="playerOneScore"
-            label={`Score for ${Object.keys(scoresMap)[0]}`}
+            label={`Score for ${players.playerOne.name}`}
             onChange={(event) => handleScoreInput(event)}
             placeholder={"0"}
             value={score}
