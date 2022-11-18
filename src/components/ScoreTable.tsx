@@ -15,6 +15,9 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
+import Welcome from "./Welcome";
+import { clearInput, profilePrefix } from "../globals";
+import { PlayerProfile } from "./LoadPlayerForm";
 
 interface GameScores {
   playerOneScore: number;
@@ -22,25 +25,44 @@ interface GameScores {
   id: number;
 }
 
+export interface Game {
+  playerOne: PlayerProfile;
+  playerTwo: PlayerProfile;
+}
+
 let scoresMap: { [name: string]: { totalScore: number } } = {};
 
-scoresMap["Joe W"] = { totalScore: 0 };
-scoresMap["Todd C"] = { totalScore: 0 };
+scoresMap["playerOne"] = { totalScore: 0 };
+scoresMap["playerTwo"] = { totalScore: 0 };
 
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
   const [score, setScore] = useState("");
+  const [players, setPlayers] = useState<Game>({
+    playerOne: {
+      name: "Player 1",
+      rating: 8.0,
+      totalPoints: 0,
+      gamesPlayed: 0,
+    },
+    playerTwo: {
+      name: "Player 2",
+      rating: 8.0,
+      totalPoints: 0,
+      gamesPlayed: 0,
+    },
+  });
   const [scoreInputHasError, setScoreInputHasError] = useState(false);
   const [showRatings, updateShowRatings] = useState(false);
-  const [ratings, updateRatings] = useState({
-    playerOneRating: 0,
-    playerTwoRating: 0,
-  });
+
+  useEffect(() => {
+    savePlayerData();
+  }, [players]);
 
   useEffect(() => {
     const listOfScores = document.querySelectorAll("tr");
     const lastScore = listOfScores[listOfScores.length - 1];
-    calcRatings(games);
+    updatePlayerRatings(games);
     lastScore.scrollIntoView();
     // console.log(scoresMap);
   }, [games]);
@@ -73,8 +95,15 @@ const ScoreTable: FC = () => {
 
     const newID = Math.floor(Math.random() * 1000);
 
-    scoresMap["Joe W"].totalScore += Number(score);
-    scoresMap["Todd C"].totalScore += 15 - Number(score);
+    // update gamesPlayed and totalPoints for each player
+    const playerOne = players.playerOne;
+    const playerTwo = players.playerTwo;
+
+    playerOne.totalPoints += Number(score);
+    playerTwo.totalPoints += 15 - Number(score);
+
+    playerOne.gamesPlayed += 1;
+    playerTwo.gamesPlayed += 1;
 
     // console.log(`score before adding score to game: ${score}`);
     setGames((prevGames) => [
@@ -86,43 +115,55 @@ const ScoreTable: FC = () => {
       },
     ]);
 
-    handleResetScore();
+    clearInput(setScore, setScoreInputHasError);
   };
 
-  const handleResetScore = () => {
-    setScore("");
-    setScoreInputHasError(false);
-  };
-
-  const calcRatings = (gamesList: GameScores[]) => {
+  const updatePlayerRatings = (gamesList: GameScores[]) => {
     const mostRecentGame = gamesList[gamesList.length - 1];
-    if (!mostRecentGame) {
-      updateRatings((prevState) => {
-        return {
-          ...prevState,
-          playerOneRating: 0,
-          playerTwoRating: 0,
-        };
-      });
-      return;
-    }
+    if (!mostRecentGame) return;
 
-    updateRatings((prevState) => {
+    setPlayers((prevState) => {
+      console.log(prevState);
       return {
-        ...prevState,
-        playerOneRating:
-          Math.round((scoresMap["Joe W"].totalScore / games.length) * 10) / 10,
-        playerTwoRating:
-          Math.round((scoresMap["Todd C"].totalScore / games.length) * 10) / 10,
+        playerOne: {
+          ...prevState.playerOne,
+          rating:
+            Math.round(
+              (prevState.playerOne.totalPoints /
+                prevState.playerOne.gamesPlayed) *
+                10
+            ) / 10,
+        },
+        playerTwo: {
+          ...prevState.playerTwo,
+          rating:
+            Math.round(
+              (prevState.playerTwo.totalPoints /
+                prevState.playerTwo.gamesPlayed) *
+                10
+            ) / 10,
+        },
       };
     });
+  };
+
+  const savePlayerData = () => {
+    localStorage.setItem(
+      `${profilePrefix}-${players.playerOne.name}`,
+      JSON.stringify(players.playerOne)
+    );
+
+    localStorage.setItem(
+      `${profilePrefix}-${players.playerTwo.name}`,
+      JSON.stringify(players.playerTwo)
+    );
   };
 
   const handleDeleteGame = (gameIndex: number) => {
     const deletedGame = games[gameIndex];
 
-    scoresMap["Joe W"].totalScore -= deletedGame.playerOneScore;
-    scoresMap["Todd C"].totalScore -= deletedGame.playerTwoScore;
+    players.playerOne.totalPoints -= deletedGame.playerOneScore;
+    players.playerTwo.totalPoints -= deletedGame.playerTwoScore;
 
     setGames((prevGames) => {
       return prevGames.filter((_, index) => {
@@ -133,6 +174,7 @@ const ScoreTable: FC = () => {
 
   return (
     <>
+      {games.length === 0 && <Welcome setPlayers={setPlayers} />}
       <Table aria-label="simple table" style={{ marginBottom: "88px" }}>
         <TableHead
           sx={{
@@ -175,17 +217,17 @@ const ScoreTable: FC = () => {
               </TableRow>
               <TableRow>
                 <TableCell align="center" padding="none">
-                  {ratings.playerOneRating}
+                  {players.playerOne.rating}
                 </TableCell>
                 <TableCell align="center" padding="none">
-                  {ratings.playerTwoRating}
+                  {players.playerTwo.rating}
                 </TableCell>
               </TableRow>
             </>
           )}
           <TableRow>
-            <TableCell align="center">Joe W</TableCell>
-            <TableCell align="center">Todd C</TableCell>
+            <TableCell align="center">{players.playerOne.name}</TableCell>
+            <TableCell align="center">{players.playerTwo.name}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -243,7 +285,7 @@ const ScoreTable: FC = () => {
             type="number"
             id="playerOneScore"
             name="playerOneScore"
-            label={`Score for ${Object.keys(scoresMap)[0]}`}
+            label={`Score for ${players.playerOne.name}`}
             onChange={(event) => handleScoreInput(event)}
             placeholder={"0"}
             value={score}
@@ -256,7 +298,11 @@ const ScoreTable: FC = () => {
                 <>
                   {score && (
                     <InputAdornment position="end">
-                      <IconButton onClick={() => handleResetScore()}>
+                      <IconButton
+                        onClick={() =>
+                          clearInput(setScore, setScoreInputHasError)
+                        }
+                      >
                         <ClearIcon />
                       </IconButton>
                     </InputAdornment>
@@ -281,3 +327,29 @@ const ScoreTable: FC = () => {
 };
 
 export default ScoreTable;
+
+/**
+ * math of handling rating calculations over time
+ * rating is an 8
+ * they score a game of 7, what is their new rating?
+ * 8 total starting points, plus new 7 = 15
+ * 2 games played total, ew rating is 7.5
+ * 8, then got a 15
+ * 15 + 8 = 23 / 2 11.5
+ *
+ *
+ * if i am rated at a 7.3 and i get 15 points
+ * 7.3 plus 15 = 22.3 / 2 = 11.15
+ * 7.3
+ * games are based on last four games? could just do total for now.
+ * game 1 = 10
+ * game 2 = 8
+ * game 3 = 4
+ * game 4 = 8
+ * total = 30 / 4 => 7.5
+ * my rating is a 7.3
+ *
+ * a new player starts at 8
+ * they get 10, 8, 4, 8 => 7.5 new rating
+ * or 8 + 7.5 = 15.5 / 2 = 7.75 new rating?
+ */
