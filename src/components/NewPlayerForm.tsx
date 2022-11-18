@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { TextField, Button, Grid } from "@mui/material";
+import { TextField, Button, Grid, Alert } from "@mui/material";
 import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
 
 const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
@@ -7,10 +7,16 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
   setPlayers,
 }) => {
   const [enteredName, setEnteredName] = useState<string>("");
+  const [enteredNameIsEmpty, setEnteredNameIsEmpty] = useState(false);
 
   const handleNameInput = (event: any) => {
     console.log(event);
-    const name = event.target.value.trim();
+    const name = event.target.value;
+    if (!name.trim()) {
+      setEnteredNameIsEmpty(true);
+    } else {
+      setEnteredNameIsEmpty(false);
+    }
     setEnteredName(name);
   };
 
@@ -22,7 +28,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
           ...prevState,
           playerOne: {
             ...prevState.playerOne,
-            name: enteredName,
+            name: enteredName.trim(),
           },
         };
       });
@@ -32,7 +38,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
           ...prevState,
           playerTwo: {
             ...prevState.playerTwo,
-            name: enteredName,
+            name: enteredName.trim(),
           },
         };
       });
@@ -49,25 +55,26 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
         }}
         onSubmit={(event) => handleNewPlayer(event)}
       >
-        <Grid justifyContent="center">
-          <TextField
-            id="playerOne"
-            label="Enter player 1 name"
-            variant="standard"
-            size="small"
-            value={enteredName}
-            onChange={(event) => handleNameInput(event)}
-            autoFocus
-          />
-          <Button
-            variant="outlined"
-            color="success"
-            type="submit"
-            style={{ marginLeft: "1rem" }}
-          >
-            Confirm
-          </Button>
-        </Grid>
+        <TextField
+          id="playerOne"
+          label="Enter player 1 name"
+          variant="standard"
+          size="small"
+          value={enteredName}
+          onChange={(event) => handleNameInput(event)}
+          helperText={enteredNameIsEmpty && "Name cannot be blank"}
+          error={enteredNameIsEmpty}
+          autoFocus
+        />
+        <Button
+          variant="outlined"
+          color="success"
+          type="submit"
+          style={{ marginLeft: "1rem" }}
+          disabled={enteredNameIsEmpty}
+        >
+          Confirm
+        </Button>
       </form>
     </>
   );
