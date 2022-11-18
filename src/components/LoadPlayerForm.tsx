@@ -19,9 +19,14 @@ export interface PlayerProfile {
   gamesPlayed: number;
 }
 
-const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({ selectedPlayer }) => {
+const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
+  selectedPlayer,
+  setPlayers,
+}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<PlayerProfile[]>([]);
+  const [selectedPlayerProfile, setSelectedPlayerProfile] =
+    useState<PlayerProfile>();
   const [searchHasError, setSearchHasError] = useState(false);
 
   // reset search results when search query modified
@@ -53,6 +58,38 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({ selectedPlayer }) => {
     results = JSON.parse(results);
     console.log(results);
     setSearchResults([results as unknown as PlayerProfile]);
+  };
+
+  const handleSelectPlayerProfile = (event: any) => {
+    const playerProfileIndex = event.target.value;
+    const playerProfile = searchResults[playerProfileIndex];
+    setSelectedPlayerProfile(playerProfile);
+  };
+
+  const handleLoadPlayer = () => {
+    if (selectedPlayer === "playerOne") {
+      setPlayers((prevState) => {
+        return {
+          ...prevState,
+          playerOne: {
+            name: selectedPlayerProfile!.name,
+            rating: selectedPlayerProfile!.rating,
+            gamesPlayed: selectedPlayerProfile!.gamesPlayed,
+          },
+        };
+      });
+    } else if (selectedPlayer === "playerTwo") {
+      setPlayers((prevState) => {
+        return {
+          ...prevState,
+          playerTwo: {
+            name: selectedPlayerProfile!.name,
+            rating: selectedPlayerProfile!.rating,
+            gamesPlayed: selectedPlayerProfile!.gamesPlayed,
+          },
+        };
+      });
+    }
   };
 
   return (
@@ -112,11 +149,13 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({ selectedPlayer }) => {
         <RadioGroup
           aria-labelledby="demo-row-radio-buttons-group-label"
           name="row-radio-buttons-group"
+          style={{ marginBottom: "1rem" }}
+          onChange={(event) => handleSelectPlayerProfile(event)}
         >
-          {searchResults.map((result: PlayerProfile) => {
+          {searchResults.map((result: PlayerProfile, index) => {
             return (
               <FormControlLabel
-                value={result.name}
+                value={index}
                 control={<Radio />}
                 label={
                   <div>
@@ -135,6 +174,16 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({ selectedPlayer }) => {
             );
           })}
         </RadioGroup>
+        {searchResults && (
+          <Button
+            variant="outlined"
+            color="success"
+            onClick={handleLoadPlayer}
+            disabled={searchHasError}
+          >
+            Load selected player
+          </Button>
+        )}
       </FormControl>
     </>
   );
