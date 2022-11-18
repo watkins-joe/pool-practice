@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import Welcome from "./Welcome";
 import { clearInput } from "../globals";
+import { PlayerProfile } from "./LoadPlayerForm";
 
 interface GameScores {
   playerOneScore: number;
@@ -24,10 +25,15 @@ interface GameScores {
   id: number;
 }
 
+interface Game {
+  playerOne: PlayerProfile;
+  playerTwo: PlayerProfile;
+}
+
 let scoresMap: { [name: string]: { totalScore: number } } = {};
 
-scoresMap["Joe W"] = { totalScore: 0 };
-scoresMap["Todd C"] = { totalScore: 0 };
+scoresMap["playerOne"] = { totalScore: 0 };
+scoresMap["playerTwo"] = { totalScore: 0 };
 
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
@@ -75,8 +81,8 @@ const ScoreTable: FC = () => {
 
     const newID = Math.floor(Math.random() * 1000);
 
-    scoresMap["Joe W"].totalScore += Number(score);
-    scoresMap["Todd C"].totalScore += 15 - Number(score);
+    scoresMap["playerOne"].totalScore += Number(score);
+    scoresMap["playerTwo"].totalScore += 15 - Number(score);
 
     // console.log(`score before adding score to game: ${score}`);
     setGames((prevGames) => [
@@ -108,9 +114,11 @@ const ScoreTable: FC = () => {
       return {
         ...prevState,
         playerOneRating:
-          Math.round((scoresMap["Joe W"].totalScore / games.length) * 10) / 10,
+          Math.round((scoresMap["playerOne"].totalScore / games.length) * 10) /
+          10,
         playerTwoRating:
-          Math.round((scoresMap["Todd C"].totalScore / games.length) * 10) / 10,
+          Math.round((scoresMap["playerTwo"].totalScore / games.length) * 10) /
+          10,
       };
     });
   };
@@ -118,8 +126,8 @@ const ScoreTable: FC = () => {
   const handleDeleteGame = (gameIndex: number) => {
     const deletedGame = games[gameIndex];
 
-    scoresMap["Joe W"].totalScore -= deletedGame.playerOneScore;
-    scoresMap["Todd C"].totalScore -= deletedGame.playerTwoScore;
+    scoresMap["playerOne"].totalScore -= deletedGame.playerOneScore;
+    scoresMap["playerTwo"].totalScore -= deletedGame.playerTwoScore;
 
     setGames((prevGames) => {
       return prevGames.filter((_, index) => {
@@ -182,8 +190,8 @@ const ScoreTable: FC = () => {
             </>
           )}
           <TableRow>
-            <TableCell align="center">Joe W</TableCell>
-            <TableCell align="center">Todd C</TableCell>
+            <TableCell align="center">playerOne</TableCell>
+            <TableCell align="center">playerTwo</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -8,8 +8,8 @@ import {
 import LoadPlayerForm from "./LoadPlayerForm";
 import NewPlayerForm from "./NewPlayerForm";
 
-const PlayerSelectRadio: FC = () => {
-  const [selectedOption, setSelectedOption] = useState("");
+const PlayerTypeRadio: FC = () => {
+  const [selectedOption, setSelectedOption] = useState("newPlayer");
 
   const handleOptionChange = (event: any) => {
     console.log(event.target.value);
@@ -27,23 +27,24 @@ const PlayerSelectRadio: FC = () => {
             display: "flex",
             justifyContent: "center",
           }}
-          defaultValue="playerOne"
+          defaultValue="newPlayer"
           onChange={(event) => handleOptionChange(event)}
         >
           <FormControlLabel
-            value="playerOne"
+            value="newPlayer"
             control={<Radio />}
-            label="Player 1"
+            label="New Player"
           />
           <FormControlLabel
-            value="playerTwo"
+            value="loadPlayer"
             control={<Radio />}
-            label="Player 2"
+            label="Load Player"
           />
         </RadioGroup>
       </FormControl>
+      {selectedOption === "newPlayer" ? <NewPlayerForm /> : <LoadPlayerForm />}
     </>
   );
 };
 
-export default PlayerSelectRadio;
+export default PlayerTypeRadio;

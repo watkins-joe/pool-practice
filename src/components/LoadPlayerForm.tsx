@@ -12,7 +12,7 @@ import {
 import ClearIcon from "@mui/icons-material/Clear";
 import { clearInput } from "../globals";
 
-interface PlayerProfile {
+export interface PlayerProfile {
   name: string;
   rating: number;
   gamesPlayed: number;
@@ -98,10 +98,9 @@ const NewPlayerProfileForm: FC = () => {
         />
         <Button
           variant="outlined"
-          // startIcon={<CheckRoundedIcon />}
           color="success"
           type="submit"
-          // disabled={scoreInputHasError}
+          disabled={searchHasError}
           style={{ marginLeft: "1rem" }}
         >
           Search

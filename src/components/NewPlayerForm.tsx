@@ -66,20 +66,16 @@ const NewPlayerForm: FC = () => {
               onChange={(event) => handleNameInput(event)}
               autoFocus
             />
-          </Grid>
-          <Grid item xs={10}>
-            <TextField
-              id="playerTwo"
-              label="Enter player 2 name"
-              variant="standard"
-              size="small"
-              value={enteredNames.playerTwoName}
-              onChange={(event) => handleNameInput(event)}
-              autoFocus
-            />
+            <Button
+              variant="outlined"
+              color="success"
+              type="submit"
+              style={{ marginLeft: "1rem" }}
+            >
+              Search
+            </Button>
           </Grid>
         </Grid>
-        <button type="submit">test</button>
       </form>
     </>
   );

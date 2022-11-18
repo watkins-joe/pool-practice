@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import PlayerSelectRadio from "./PlayerSelectRadio";
+import PlayerTypeRadio from "./PlayerTypeRadio";
 
 interface LoadGameDialogProps {
   open: boolean;
@@ -36,6 +37,7 @@ const LoadGameDialog: FC<LoadGameDialogProps> = ({ open, onCancel, onOk }) => {
         }}
       >
         <PlayerSelectRadio />
+        <PlayerTypeRadio />
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={onCancel}>
