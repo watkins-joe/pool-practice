@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { clearInput } from "../globals";
+import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
 
 export interface PlayerProfile {
   name: string;
@@ -18,7 +19,7 @@ export interface PlayerProfile {
   gamesPlayed: number;
 }
 
-const NewPlayerProfileForm: FC = () => {
+const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({ selectedPlayer }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<PlayerProfile[]>([]);
   const [searchHasError, setSearchHasError] = useState(false);

@@ -1,48 +1,19 @@
 import { FC, useState } from "react";
-import {
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  TextField,
-  Button,
-  Grid,
-} from "@mui/material";
+import { TextField, Button, Grid } from "@mui/material";
+import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
 
-interface EnteredNames {
-  playerOneName: string;
-  playerTwoName: string;
-}
-
-const NewPlayerForm: FC = () => {
-  const [enteredNames, setEnteredNames] = useState<EnteredNames>({
-    playerOneName: "",
-    playerTwoName: "",
-  });
+const NewPlayerForm: FC<PlayerTypeRadioProps> = ({ selectedPlayer }) => {
+  const [enteredName, setEnteredName] = useState<string>("");
 
   const handleNameInput = (event: any) => {
     console.log(event);
-    const enteredName = event.target.value.trim();
-    if (event.target.id === "playerOne") {
-      setEnteredNames((prevState) => {
-        return {
-          ...prevState,
-          playerOneName: enteredName,
-        };
-      });
-    } else {
-      setEnteredNames((prevState) => {
-        return {
-          ...prevState,
-          playerTwoName: enteredName,
-        };
-      });
-    }
+    const name = event.target.value.trim();
+    setEnteredName(name);
   };
 
-  const handleNameChange = (event: any) => {
+  const handleNewPlayer = (event: any) => {
     event.preventDefault();
-    console.log(enteredNames);
+    console.log(enteredName);
   };
 
   return (
@@ -53,7 +24,7 @@ const NewPlayerForm: FC = () => {
           justifyContent: "center",
           marginBottom: "1rem",
         }}
-        onSubmit={(event) => handleNameChange(event)}
+        onSubmit={(event) => handleNewPlayer(event)}
       >
         <Grid justifyContent="center">
           <TextField
@@ -61,7 +32,7 @@ const NewPlayerForm: FC = () => {
             label="Enter player 1 name"
             variant="standard"
             size="small"
-            value={enteredNames.playerOneName}
+            value={enteredName}
             onChange={(event) => handleNameInput(event)}
             autoFocus
           />

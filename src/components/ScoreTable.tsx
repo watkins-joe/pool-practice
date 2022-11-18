@@ -25,7 +25,7 @@ interface GameScores {
   id: number;
 }
 
-interface Game {
+export interface Game {
   playerOne: PlayerProfile;
   playerTwo: PlayerProfile;
 }
@@ -142,7 +142,7 @@ const ScoreTable: FC = () => {
 
   return (
     <>
-      {games.length === 0 && <Welcome />}
+      {games.length === 0 && <Welcome setPlayers={setPlayers} />}
       <Table aria-label="simple table" style={{ marginBottom: "88px" }}>
         <TableHead
           sx={{

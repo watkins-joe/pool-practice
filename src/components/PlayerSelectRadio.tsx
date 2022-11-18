@@ -5,8 +5,6 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
-import LoadPlayerForm from "./LoadPlayerForm";
-import NewPlayerForm from "./NewPlayerForm";
 
 const PlayerSelectRadio: FC = () => {
   const [selectedOption, setSelectedOption] = useState("");

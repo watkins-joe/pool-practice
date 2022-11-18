@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import {
   FormControl,
   RadioGroup,
@@ -7,8 +7,17 @@ import {
 } from "@mui/material";
 import LoadPlayerForm from "./LoadPlayerForm";
 import NewPlayerForm from "./NewPlayerForm";
+import { Game } from "./ScoreTable";
 
-const PlayerTypeRadio: FC = () => {
+export interface PlayerTypeRadioProps {
+  selectedPlayer: string;
+  setPlayers: Dispatch<SetStateAction<Game>>;
+}
+
+const PlayerTypeRadio: FC<PlayerTypeRadioProps> = ({
+  selectedPlayer,
+  setPlayers,
+}) => {
   const [selectedOption, setSelectedOption] = useState("newPlayer");
 
   const handleOptionChange = (event: any) => {
@@ -42,7 +51,17 @@ const PlayerTypeRadio: FC = () => {
           />
         </RadioGroup>
       </FormControl>
-      {selectedOption === "newPlayer" ? <NewPlayerForm /> : <LoadPlayerForm />}
+      {selectedOption === "newPlayer" ? (
+        <NewPlayerForm
+          selectedPlayer={selectedPlayer}
+          setPlayers={setPlayers}
+        />
+      ) : (
+        <LoadPlayerForm
+          selectedPlayer={selectedPlayer}
+          setPlayers={setPlayers}
+        />
+      )}
     </>
   );
 };
