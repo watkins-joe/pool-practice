@@ -10,12 +10,13 @@ import {
   InputAdornment,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { clearInput } from "../globals";
+import { clearInput, profilePrefix } from "../globals";
 import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
 
 export interface PlayerProfile {
   name: string;
   rating: number;
+  totalPoints: number;
   gamesPlayed: number;
 }
 
@@ -49,7 +50,6 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   };
 
   const searchForPlayers = (searchQuery: string) => {
-    const profilePrefix = "poolPrac";
     let results = localStorage.getItem(`${profilePrefix}-${searchQuery}`);
     if (typeof results !== "string") {
       setSearchHasError(true);
@@ -74,6 +74,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           playerOne: {
             name: selectedPlayerProfile!.name,
             rating: selectedPlayerProfile!.rating,
+            totalPoints: selectedPlayerProfile!.totalPoints,
             gamesPlayed: selectedPlayerProfile!.gamesPlayed,
           },
         };
@@ -85,6 +86,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           playerTwo: {
             name: selectedPlayerProfile!.name,
             rating: selectedPlayerProfile!.rating,
+            totalPoints: selectedPlayerProfile!.totalPoints,
             gamesPlayed: selectedPlayerProfile!.gamesPlayed,
           },
         };
