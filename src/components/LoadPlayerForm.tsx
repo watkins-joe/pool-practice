@@ -28,7 +28,8 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   const [searchResults, setSearchResults] = useState<PlayerProfile[]>([]);
   const [selectedPlayerProfile, setSelectedPlayerProfile] =
     useState<PlayerProfile>();
-  const [searchHasError, setSearchHasError] = useState(false);
+  const [searchQueryIsEmpty, setSearchQueryIsEmpty] = useState(false);
+  const [noSearchResults, setNoSearchResults] = useState<any>();
 
   // reset search results when search query modified
   useEffect(() => {
@@ -37,23 +38,31 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
 
   const handleSearchInput = (event: any) => {
     const enteredQuery = event.target.value;
-    if (searchHasError) setSearchHasError(false);
+    if (noSearchResults) setNoSearchResults(false);
+    if (!enteredQuery.trim()) {
+      setSearchQueryIsEmpty(true);
+    } else {
+      setSearchQueryIsEmpty(false);
+    }
     setSearchQuery(enteredQuery);
   };
 
   const handleSubmitSearch = (event: any) => {
     event.preventDefault();
-    console.log(searchQuery);
-    if (!searchQuery) return;
-    searchForPlayers(searchQuery);
+    console.log(searchQuery.trim());
+    if (searchQuery.trim().length === 0) {
+      setSearchQueryIsEmpty(true);
+      return;
+    }
+    searchForPlayers(searchQuery.trim());
   };
 
   const searchForPlayers = (searchQuery: string) => {
     let results = localStorage.getItem(
       `${profilePrefix}-${searchQuery.trim()}`
     );
-    if (typeof results !== "string") {
-      setSearchHasError(true);
+    if (!results) {
+      setNoSearchResults(true);
       return;
     }
     results = JSON.parse(results);
@@ -114,11 +123,13 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           onChange={(event) => handleSearchInput(event)}
           autoFocus
           helperText={
-            searchHasError
-              ? `No results found for "${searchQuery}"`
+            noSearchResults
+              ? `No results found for "${searchQuery.trim()}"`
+              : searchQueryIsEmpty
+              ? "Search cannot be empty"
               : "Name is case sensitive"
           }
-          error={searchHasError}
+          error={searchQueryIsEmpty}
           InputProps={{
             endAdornment: (
               <>
@@ -126,7 +137,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
                   <InputAdornment position="end">
                     <IconButton
                       onClick={() =>
-                        clearInput(setSearchQuery, setSearchHasError)
+                        clearInput(setSearchQuery, setNoSearchResults)
                       }
                     >
                       <ClearIcon />
@@ -141,7 +152,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           variant="outlined"
           color="success"
           type="submit"
-          disabled={searchHasError}
+          disabled={searchQueryIsEmpty}
           style={{ marginLeft: "1rem" }}
         >
           Search

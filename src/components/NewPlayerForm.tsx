@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { TextField, Button, Grid } from "@mui/material";
+import { TextField, Button, Grid, Alert } from "@mui/material";
 import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
 
 const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
@@ -7,15 +7,15 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
   setPlayers,
 }) => {
   const [enteredName, setEnteredName] = useState<string>("");
-  const [enteredNameError, setEnteredNameError] = useState(false);
+  const [enteredNameIsEmpty, setEnteredNameIsEmpty] = useState(false);
 
   const handleNameInput = (event: any) => {
     console.log(event);
-    const name = event.target.value.trim();
-    if (!name) {
-      setEnteredNameError(true);
+    const name = event.target.value;
+    if (!name.trim()) {
+      setEnteredNameIsEmpty(true);
     } else {
-      setEnteredNameError(false);
+      setEnteredNameIsEmpty(false);
     }
     setEnteredName(name);
   };
@@ -62,8 +62,8 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
           size="small"
           value={enteredName}
           onChange={(event) => handleNameInput(event)}
-          helperText={enteredNameError && "Name cannot be blank"}
-          error={enteredNameError}
+          helperText={enteredNameIsEmpty && "Name cannot be blank"}
+          error={enteredNameIsEmpty}
           autoFocus
         />
         <Button
@@ -71,7 +71,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
           color="success"
           type="submit"
           style={{ marginLeft: "1rem" }}
-          disabled={enteredNameError}
+          disabled={enteredNameIsEmpty}
         >
           Confirm
         </Button>
