@@ -7,10 +7,16 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
   setPlayers,
 }) => {
   const [enteredName, setEnteredName] = useState<string>("");
+  const [enteredNameError, setEnteredNameError] = useState(false);
 
   const handleNameInput = (event: any) => {
     console.log(event);
-    const name = event.target.value;
+    const name = event.target.value.trim();
+    if (!name) {
+      setEnteredNameError(true);
+    } else {
+      setEnteredNameError(false);
+    }
     setEnteredName(name);
   };
 
@@ -49,25 +55,26 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
         }}
         onSubmit={(event) => handleNewPlayer(event)}
       >
-        <Grid justifyContent="center">
-          <TextField
-            id="playerOne"
-            label="Enter player 1 name"
-            variant="standard"
-            size="small"
-            value={enteredName}
-            onChange={(event) => handleNameInput(event)}
-            autoFocus
-          />
-          <Button
-            variant="outlined"
-            color="success"
-            type="submit"
-            style={{ marginLeft: "1rem" }}
-          >
-            Confirm
-          </Button>
-        </Grid>
+        <TextField
+          id="playerOne"
+          label="Enter player 1 name"
+          variant="standard"
+          size="small"
+          value={enteredName}
+          onChange={(event) => handleNameInput(event)}
+          helperText={enteredNameError && "Name cannot be blank"}
+          error={enteredNameError}
+          autoFocus
+        />
+        <Button
+          variant="outlined"
+          color="success"
+          type="submit"
+          style={{ marginLeft: "1rem" }}
+          disabled={enteredNameError}
+        >
+          Confirm
+        </Button>
       </form>
     </>
   );
