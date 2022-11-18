@@ -6,7 +6,11 @@ import {
   Radio,
   TextField,
   Button,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+import { clearInput } from "../globals";
 
 interface PlayerProfile {
   name: string;
@@ -34,6 +38,7 @@ const NewPlayerProfileForm: FC = () => {
   const handleSubmitSearch = (event: any) => {
     event.preventDefault();
     console.log(searchQuery);
+    if (!searchQuery) return;
     searchForPlayers(searchQuery);
   };
 
@@ -62,13 +67,34 @@ const NewPlayerProfileForm: FC = () => {
         <TextField
           id="standard-basic"
           label="Enter player name"
-          variant="standard"
+          variant="outlined"
           size="small"
           value={searchQuery}
           onChange={(event) => handleSearchInput(event)}
           autoFocus
-          helperText={searchHasError && `No results found for "${searchQuery}"`}
+          helperText={
+            searchHasError
+              ? `No results found for "${searchQuery}"`
+              : "Name is case sensitive"
+          }
           error={searchHasError}
+          InputProps={{
+            endAdornment: (
+              <>
+                {searchQuery && (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() =>
+                        clearInput(setSearchQuery, setSearchHasError)
+                      }
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                )}
+              </>
+            ),
+          }}
         />
         <Button
           variant="outlined"
@@ -87,36 +113,27 @@ const NewPlayerProfileForm: FC = () => {
           aria-labelledby="demo-row-radio-buttons-group-label"
           name="row-radio-buttons-group"
         >
-          {searchResults &&
-            searchResults.map((result: PlayerProfile) => {
-              return (
-                <FormControlLabel
-                  value={result.name}
-                  control={<Radio />}
-                  label={
-                    <>
-                      <div>{result.name}</div>
-                      <div>
-                        Rating: <code>{result.rating}</code>
-                      </div>
-                      <div>
-                        Games played: <code>{result.gamesPlayed}</code>
-                      </div>
-                    </>
-                  }
-                />
-              );
-            })}
-          <FormControlLabel
-            value="newPlayer"
-            control={<Radio />}
-            label={<div>Joe W</div>}
-          />
-          <FormControlLabel
-            value="existingPlayer"
-            control={<Radio />}
-            label={<div>Todd C</div>}
-          />
+          {searchResults.map((result: PlayerProfile) => {
+            return (
+              <FormControlLabel
+                value={result.name}
+                control={<Radio />}
+                label={
+                  <div>
+                    <div>
+                      Name: <code>{result.name}</code>
+                    </div>
+                    <div>
+                      Rating: <code>{result.rating}</code>
+                    </div>
+                    <div>
+                      Games played: <code>{result.gamesPlayed}</code>
+                    </div>
+                  </div>
+                }
+              />
+            );
+          })}
         </RadioGroup>
       </FormControl>
     </>

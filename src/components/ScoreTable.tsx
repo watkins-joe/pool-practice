@@ -16,6 +16,7 @@ import {
   TextField,
 } from "@mui/material";
 import Welcome from "./Welcome";
+import { clearInput } from "../globals";
 
 interface GameScores {
   playerOneScore: number;
@@ -87,12 +88,7 @@ const ScoreTable: FC = () => {
       },
     ]);
 
-    handleResetScore();
-  };
-
-  const handleResetScore = () => {
-    setScore("");
-    setScoreInputHasError(false);
+    clearInput(setScore, setScoreInputHasError);
   };
 
   const calcRatings = (gamesList: GameScores[]) => {
@@ -258,7 +254,11 @@ const ScoreTable: FC = () => {
                 <>
                   {score && (
                     <InputAdornment position="end">
-                      <IconButton onClick={() => handleResetScore()}>
+                      <IconButton
+                        onClick={() =>
+                          clearInput(setScore, setScoreInputHasError)
+                        }
+                      >
                         <ClearIcon />
                       </IconButton>
                     </InputAdornment>
