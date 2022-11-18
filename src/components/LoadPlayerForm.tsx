@@ -134,7 +134,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
               ? "Search cannot be empty"
               : "Name is case sensitive"
           }
-          error={searchQueryIsEmpty}
+          error={noSearchResults || searchQueryIsEmpty}
           InputProps={{
             endAdornment: (
               <>
