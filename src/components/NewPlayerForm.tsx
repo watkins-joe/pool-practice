@@ -22,7 +22,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
 
   const handleNewPlayer = (event: any) => {
     event.preventDefault();
-    if (selectedPlayer === "playerOne") {
+    if (selectedPlayer === "Player 1") {
       setPlayers((prevState) => {
         return {
           ...prevState,
@@ -32,7 +32,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
           },
         };
       });
-    } else if (selectedPlayer === "playerTwo") {
+    } else if (selectedPlayer === "Player 2") {
       setPlayers((prevState) => {
         return {
           ...prevState,
@@ -56,8 +56,12 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
         onSubmit={(event) => handleNewPlayer(event)}
       >
         <TextField
-          id="playerOne"
-          label="Enter player 1 name"
+          id="Player 1"
+          label={
+            selectedPlayer === "Player 1"
+              ? "Enter player 1 name"
+              : "Enter player 2 name"
+          }
           variant="standard"
           size="small"
           value={enteredName}

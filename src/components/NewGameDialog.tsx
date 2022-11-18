@@ -28,7 +28,7 @@ const LoadGameDialog: FC<LoadGameDialogProps> = ({
   onClose,
   setPlayers,
 }) => {
-  const [selectedPlayer, setSelectedPlayer] = useState("playerOne");
+  const [selectedPlayer, setSelectedPlayer] = useState("Player 1");
 
   const handleOptionChange = (event: any) => {
     console.log(event.target.value);
@@ -74,16 +74,16 @@ const LoadGameDialog: FC<LoadGameDialogProps> = ({
               display: "flex",
               justifyContent: "center",
             }}
-            defaultValue="playerOne"
+            defaultValue="Player 1"
             onChange={(event) => handleOptionChange(event)}
           >
             <FormControlLabel
-              value="playerOne"
+              value="Player 1"
               control={<Radio />}
               label="Player 1"
             />
             <FormControlLabel
-              value="playerTwo"
+              value="Player 2"
               control={<Radio />}
               label="Player 2"
             />

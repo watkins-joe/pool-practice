@@ -12,6 +12,7 @@ import {
 import ClearIcon from "@mui/icons-material/Clear";
 import { clearInput, profilePrefix } from "../globals";
 import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
+import { resourceLimits } from "worker_threads";
 
 export interface PlayerProfile {
   name: string;
@@ -71,13 +72,16 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   };
 
   const handleSelectPlayerProfile = (event: any) => {
-    const playerProfileIndex = event.target.value;
-    const playerProfile = searchResults[playerProfileIndex];
+    const playerName = event.target.value;
+    const playerProfile: PlayerProfile | undefined = searchResults.find(
+      (result) => playerName === result.name
+    );
     setSelectedPlayerProfile(playerProfile);
   };
 
   const handleLoadPlayer = () => {
-    if (selectedPlayer === "playerOne") {
+    alert(`"${selectedPlayerProfile!.name}" loaded for ${selectedPlayer}!`);
+    if (selectedPlayer === "Player 1") {
       setPlayers((prevState) => {
         return {
           ...prevState,
@@ -89,7 +93,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           },
         };
       });
-    } else if (selectedPlayer === "playerTwo") {
+    } else if (selectedPlayer === "Player 2") {
       setPlayers((prevState) => {
         return {
           ...prevState,
@@ -102,6 +106,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
         };
       });
     }
+    setSelectedPlayerProfile(undefined);
   };
 
   return (
@@ -169,7 +174,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           {searchResults.map((result: PlayerProfile, index) => {
             return (
               <FormControlLabel
-                value={index}
+                value={result.name}
                 control={<Radio />}
                 label={
                   <div>

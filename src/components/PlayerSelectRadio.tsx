@@ -25,16 +25,16 @@ const PlayerSelectRadio: FC = () => {
             display: "flex",
             justifyContent: "center",
           }}
-          defaultValue="playerOne"
+          defaultValue="Player 1"
           onChange={(event) => handleOptionChange(event)}
         >
           <FormControlLabel
-            value="playerOne"
+            value="Player 1"
             control={<Radio />}
             label="Player 1"
           />
           <FormControlLabel
-            value="playerTwo"
+            value="Player 2"
             control={<Radio />}
             label="Player 2"
           />
