@@ -36,8 +36,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   }, [searchQuery]);
 
   const handleSearchInput = (event: any) => {
-    const enteredQuery = event.target.value.trim();
-
+    const enteredQuery = event.target.value;
     if (searchHasError) setSearchHasError(false);
     setSearchQuery(enteredQuery);
   };
@@ -50,7 +49,9 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   };
 
   const searchForPlayers = (searchQuery: string) => {
-    let results = localStorage.getItem(`${profilePrefix}-${searchQuery}`);
+    let results = localStorage.getItem(
+      `${profilePrefix}-${searchQuery.trim()}`
+    );
     if (typeof results !== "string") {
       setSearchHasError(true);
       return;
@@ -181,7 +182,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
             variant="outlined"
             color="success"
             onClick={handleLoadPlayer}
-            disabled={searchHasError}
+            disabled={!selectedPlayerProfile}
           >
             Load selected player
           </Button>

@@ -24,12 +24,7 @@ const Welcome: FC<WelcomeProps> = ({ setPlayers }) => {
     setShowLoadGame(true);
   };
 
-  const handleLoadGameCancel = () => {
-    console.log("CANCEL");
-    setShowLoadGame(false);
-  };
-
-  const handleLoadGameOk = () => {
+  const handleLoadGameClose = () => {
     console.log("OK");
     setShowLoadGame(false);
   };
@@ -39,8 +34,7 @@ const Welcome: FC<WelcomeProps> = ({ setPlayers }) => {
       {showLoadGame && (
         <LoadGameDialog
           open={showLoadGame}
-          onCancel={handleLoadGameCancel}
-          onOk={handleLoadGameOk}
+          onClose={handleLoadGameClose}
           setPlayers={setPlayers}
         />
       )}

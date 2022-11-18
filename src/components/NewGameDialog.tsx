@@ -8,7 +8,10 @@ import {
   DialogActions,
   Button,
   FormControl,
+  IconButton,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import PlayerSelectRadio from "./PlayerSelectRadio";
 import PlayerTypeRadio from "./PlayerTypeRadio";
@@ -16,15 +19,13 @@ import { Game } from "./ScoreTable";
 
 interface LoadGameDialogProps {
   open: boolean;
-  onCancel: () => void;
-  onOk: () => void;
+  onClose: () => void;
   setPlayers: Dispatch<SetStateAction<Game>>;
 }
 
 const LoadGameDialog: FC<LoadGameDialogProps> = ({
   open,
-  onCancel,
-  onOk,
+  onClose,
   setPlayers,
 }) => {
   const [selectedPlayer, setSelectedPlayer] = useState("playerOne");
@@ -41,7 +42,20 @@ const LoadGameDialog: FC<LoadGameDialogProps> = ({
       open={open}
       //   {...other}
     >
-      <DialogTitle>New Game</DialogTitle>
+      <DialogTitle>
+        New Game
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 12,
+            top: 12,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
       <DialogContent
         dividers
         style={{
@@ -80,12 +94,6 @@ const LoadGameDialog: FC<LoadGameDialogProps> = ({
           setPlayers={setPlayers}
         />
       </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button onClick={onOk}>Ok</Button>
-      </DialogActions>
     </Dialog>
   );
 };

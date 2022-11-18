@@ -10,7 +10,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
 
   const handleNameInput = (event: any) => {
     console.log(event);
-    const name = event.target.value.trim();
+    const name = event.target.value;
     setEnteredName(name);
   };
 
@@ -22,7 +22,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
           ...prevState,
           playerOne: {
             ...prevState.playerOne,
-            name: enteredName,
+            name: enteredName.trim(),
           },
         };
       });
@@ -32,7 +32,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
           ...prevState,
           playerTwo: {
             ...prevState.playerTwo,
-            name: enteredName,
+            name: enteredName.trim(),
           },
         };
       });
