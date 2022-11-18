@@ -43,6 +43,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
         };
       });
     }
+    alert(`"${enteredName.trim()}" loaded for ${selectedPlayer}!`);
   };
 
   return (

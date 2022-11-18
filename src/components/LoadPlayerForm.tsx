@@ -80,7 +80,6 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   };
 
   const handleLoadPlayer = () => {
-    alert(`"${selectedPlayerProfile!.name}" loaded for ${selectedPlayer}!`);
     if (selectedPlayer === "Player 1") {
       setPlayers((prevState) => {
         return {
@@ -106,6 +105,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
         };
       });
     }
+    alert(`"${selectedPlayerProfile!.name}" loaded for ${selectedPlayer}!`);
     setSelectedPlayerProfile(undefined);
   };
 
