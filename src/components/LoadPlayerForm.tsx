@@ -12,7 +12,6 @@ import {
 import ClearIcon from "@mui/icons-material/Clear";
 import { clearInput, profilePrefix } from "../globals";
 import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
-import { resourceLimits } from "worker_threads";
 
 export interface PlayerProfile {
   name: string;
@@ -35,6 +34,10 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   // reset search results when search query modified
   useEffect(() => {
     if (searchResults) setSearchResults([]);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (!searchQuery) setSearchQueryIsEmpty(true);
   }, [searchQuery]);
 
   const handleSearchInput = (event: any) => {
@@ -106,7 +109,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
       });
     }
     alert(`"${selectedPlayerProfile!.name}" loaded for ${selectedPlayer}!`);
-    setSelectedPlayerProfile(undefined);
+    clearInput(setSearchQuery);
   };
 
   return (

@@ -1,6 +1,6 @@
 export const profilePrefix = "poolPrac";
 
-export function clearInput(inputStateFn: any, booleanStateFn: any) {
+export function clearInput(inputStateFn: any, booleanStateFn?: any) {
   inputStateFn("");
-  booleanStateFn(false);
+  if (booleanStateFn) booleanStateFn(false);
 }

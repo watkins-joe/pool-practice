@@ -1,6 +1,9 @@
-import { FC, useState } from "react";
-import { TextField, Button, Grid, Alert } from "@mui/material";
+import { FC, useEffect, useState } from "react";
+import { TextField, Button, IconButton, InputAdornment } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+
 import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
+import { clearInput } from "../globals";
 
 const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
   selectedPlayer,
@@ -8,6 +11,10 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
 }) => {
   const [enteredName, setEnteredName] = useState<string>("");
   const [enteredNameIsEmpty, setEnteredNameIsEmpty] = useState(false);
+
+  useEffect(() => {
+    if (!enteredName) setEnteredNameIsEmpty(true);
+  }, [enteredName]);
 
   const handleNameInput = (event: any) => {
     console.log(event);
@@ -44,6 +51,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
       });
     }
     alert(`"${enteredName.trim()}" loaded for ${selectedPlayer}!`);
+    clearInput(setEnteredName);
   };
 
   return (
@@ -63,13 +71,26 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
               ? "Enter player 1 name"
               : "Enter player 2 name"
           }
-          variant="standard"
+          variant="outlined"
           size="small"
           value={enteredName}
           onChange={(event) => handleNameInput(event)}
           helperText={enteredNameIsEmpty && "Name cannot be blank"}
           error={enteredNameIsEmpty}
           autoFocus
+          InputProps={{
+            endAdornment: (
+              <>
+                {enteredName && (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => clearInput(setEnteredName)}>
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                )}
+              </>
+            ),
+          }}
         />
         <Button
           variant="outlined"
