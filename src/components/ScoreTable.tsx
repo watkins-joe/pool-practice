@@ -282,7 +282,7 @@ const ScoreTable: FC = () => {
           }}
         >
           <TextField
-            type="number"
+            type="tel"
             id="playerOneScore"
             name="playerOneScore"
             label={`Score for ${players.playerOne.name}`}
