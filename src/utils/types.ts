@@ -1,21 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 
-export interface PlayerProfile {
-  name: string;
-  rating: number;
-  totalPoints: number;
-  gamesPlayed: number;
-}
-
-export interface LoadGameDialogProps {
-  open: boolean;
-  onClose: () => void;
-  setPlayers: Dispatch<SetStateAction<Game>>;
-}
-
-export interface PlayerTypeRadioProps {
-  selectedPlayer: string;
-  setPlayers: Dispatch<SetStateAction<Game>>;
+export interface Game {
+  playerOne: PlayerProfile;
+  playerTwo: PlayerProfile;
 }
 
 export interface GameScores {
@@ -24,9 +11,22 @@ export interface GameScores {
   id: number;
 }
 
-export interface Game {
-  playerOne: PlayerProfile;
-  playerTwo: PlayerProfile;
+export interface LoadGameDialogProps {
+  open: boolean;
+  onClose: () => void;
+  setPlayers: Dispatch<SetStateAction<Game>>;
+}
+
+export interface PlayerProfile {
+  name: string;
+  rating: number;
+  totalPoints: number;
+  gamesPlayed: number;
+}
+
+export interface PlayerTypeRadioProps {
+  selectedPlayer: string;
+  setPlayers: Dispatch<SetStateAction<Game>>;
 }
 
 export interface WelcomeProps {
