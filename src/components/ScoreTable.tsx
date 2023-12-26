@@ -71,17 +71,26 @@ const ScoreTable: FC = () => {
     updateShowRatings(!showRatings);
   };
 
-  const handleScoreInput = (event: any) => {
+  const handleScoreInput = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     // console.log(event);
-    let enteredScore = event.target.value.trim();
-    // console.log(`enteredScore: ${enteredScore}`);
-    if (!enteredScore || enteredScore < 0 || enteredScore > 15) {
+    // Convert to number for mathematic comparison
+    let enteredScore = Number(event.target.value.trim());
+    console.log(`enteredScore: ${enteredScore}`);
+    if (
+      !enteredScore ||
+      enteredScore < 0 ||
+      enteredScore > 15 ||
+      !Number.isInteger(enteredScore)
+    ) {
       setScoreInputHasError(true);
     } else {
       setScoreInputHasError(false);
     }
 
-    setScore(enteredScore);
+    // Convert back to string for storage
+    setScore(enteredScore.toString());
   };
 
   const handleSubmitScore = (event: any) => {
