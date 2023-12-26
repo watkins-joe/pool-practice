@@ -18,6 +18,7 @@ import {
 import Welcome from "./Welcome";
 import { clearInput, profilePrefix } from "../globals";
 import { PlayerProfile } from "./LoadPlayerForm";
+import { calculateRating } from "../utils/functions";
 
 interface GameScores {
   playerOneScore: number;
@@ -136,21 +137,11 @@ const ScoreTable: FC = () => {
       return {
         playerOne: {
           ...prevState.playerOne,
-          rating:
-            Math.round(
-              (prevState.playerOne.totalPoints /
-                prevState.playerOne.gamesPlayed) *
-                10
-            ) / 10,
+          rating: calculateRating(prevState.playerOne),
         },
         playerTwo: {
           ...prevState.playerTwo,
-          rating:
-            Math.round(
-              (prevState.playerTwo.totalPoints /
-                prevState.playerTwo.gamesPlayed) *
-                10
-            ) / 10,
+          rating: calculateRating(prevState.playerTwo),
         },
       };
     });
@@ -173,6 +164,14 @@ const ScoreTable: FC = () => {
 
     players.playerOne.totalPoints -= deletedGame.playerOneScore;
     players.playerTwo.totalPoints -= deletedGame.playerTwoScore;
+
+    players.playerOne.gamesPlayed--;
+    players.playerTwo.gamesPlayed--;
+
+    players.playerOne.rating = calculateRating(players.playerOne);
+    players.playerTwo.rating = calculateRating(players.playerTwo);
+
+    console.log(players);
 
     setGames((prevGames) => {
       return prevGames.filter((_, index) => {
