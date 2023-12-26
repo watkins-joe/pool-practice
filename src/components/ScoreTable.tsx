@@ -78,7 +78,7 @@ const ScoreTable: FC = () => {
     // console.log(event);
     // Convert to number for mathematic comparison
     let enteredScore = Number(event.target.value.trim());
-    console.log(`enteredScore: ${enteredScore}`);
+    // console.log(`enteredScore: ${enteredScore}`);
     if (
       !enteredScore ||
       enteredScore < 0 ||
@@ -171,7 +171,7 @@ const ScoreTable: FC = () => {
     players.playerOne.rating = calculateRating(players.playerOne);
     players.playerTwo.rating = calculateRating(players.playerTwo);
 
-    console.log(players);
+    // console.log(players);
 
     setGames((prevGames) => {
       return prevGames.filter((_, index) => {
