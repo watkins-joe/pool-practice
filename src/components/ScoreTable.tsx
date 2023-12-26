@@ -80,7 +80,7 @@ const ScoreTable: FC = () => {
     let enteredScore = Number(event.target.value.trim());
     // console.log(`enteredScore: ${enteredScore}`);
     if (
-      !enteredScore ||
+      !enteredScore.toString().length ||
       enteredScore < 0 ||
       enteredScore > 15 ||
       !Number.isInteger(enteredScore)
