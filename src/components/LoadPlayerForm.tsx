@@ -11,14 +11,7 @@ import {
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { clearInput, profilePrefix } from "../globals";
-import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
-
-export interface PlayerProfile {
-  name: string;
-  rating: number;
-  totalPoints: number;
-  gamesPlayed: number;
-}
+import { PlayerTypeRadioProps, PlayerProfile } from "../utils/types";
 
 const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   selectedPlayer,

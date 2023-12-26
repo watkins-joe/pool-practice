@@ -17,24 +17,8 @@ import {
 } from "@mui/material";
 import Welcome from "./Welcome";
 import { clearInput, profilePrefix } from "../globals";
-import { PlayerProfile } from "./LoadPlayerForm";
-import { calculateRating } from "../utils/functions";
-
-interface GameScores {
-  playerOneScore: number;
-  playerTwoScore: number;
-  id: number;
-}
-
-export interface Game {
-  playerOne: PlayerProfile;
-  playerTwo: PlayerProfile;
-}
-
-let scoresMap: { [name: string]: { totalScore: number } } = {};
-
-scoresMap["playerOne"] = { totalScore: 0 };
-scoresMap["playerTwo"] = { totalScore: 0 };
+import { calculateRating, scoreIsValid } from "../utils/functions";
+import { GameScores, Game } from "../utils/types";
 
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
@@ -65,7 +49,6 @@ const ScoreTable: FC = () => {
     const lastScore = listOfScores[listOfScores.length - 1];
     updatePlayerRatings(games);
     lastScore.scrollIntoView();
-    // console.log(scoresMap);
   }, [games]);
 
   const handleShowRatingsChanges = () => {
@@ -79,12 +62,7 @@ const ScoreTable: FC = () => {
     // Convert to number for mathematic comparison
     let enteredScore = Number(event.target.value.trim());
     // console.log(`enteredScore: ${enteredScore}`);
-    if (
-      !enteredScore.toString().length ||
-      enteredScore < 0 ||
-      enteredScore > 15 ||
-      !Number.isInteger(enteredScore)
-    ) {
+    if (!scoreIsValid(enteredScore)) {
       setScoreInputHasError(true);
     } else {
       setScoreInputHasError(false);

@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { FC, useState } from "react";
 import LoadGameDialog from "./NewGameDialog";
-import { Game } from "./ScoreTable";
+import { WelcomeProps } from "../utils/types";
 
 /**
  * a. when first game saved, generate random id, store this game with this id in localStorage. on each page load, gen new id and save game. load game lists all saved games and you can choose which one or delete them there.
@@ -11,10 +11,6 @@ import { Game } from "./ScoreTable";
  * 4. when game selected and load game clicked, close dialog box and load game data into the app
  * when
  */
-
-interface WelcomeProps {
-  setPlayers: Dispatch<SetStateAction<Game>>;
-}
 
 const Welcome: FC<WelcomeProps> = ({ setPlayers }) => {
   const [showLoadGame, setShowLoadGame] = useState(false);

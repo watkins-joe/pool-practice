@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { FC, useState } from "react";
 import {
   FormControl,
   RadioGroup,
@@ -7,12 +7,7 @@ import {
 } from "@mui/material";
 import LoadPlayerForm from "./LoadPlayerForm";
 import NewPlayerForm from "./NewPlayerForm";
-import { Game } from "./ScoreTable";
-
-export interface PlayerTypeRadioProps {
-  selectedPlayer: string;
-  setPlayers: Dispatch<SetStateAction<Game>>;
-}
+import { PlayerTypeRadioProps } from "../utils/types";
 
 const PlayerTypeRadio: FC<PlayerTypeRadioProps> = ({
   selectedPlayer,

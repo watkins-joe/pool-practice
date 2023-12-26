@@ -5,23 +5,14 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  DialogActions,
-  Button,
   FormControl,
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { Dispatch, FC, SetStateAction, useState } from "react";
-import PlayerSelectRadio from "./PlayerSelectRadio";
+import { FC, useState } from "react";
 import PlayerTypeRadio from "./PlayerTypeRadio";
-import { Game } from "./ScoreTable";
-
-interface LoadGameDialogProps {
-  open: boolean;
-  onClose: () => void;
-  setPlayers: Dispatch<SetStateAction<Game>>;
-}
+import { LoadGameDialogProps } from "../utils/types";
 
 const LoadGameDialog: FC<LoadGameDialogProps> = ({
   open,
