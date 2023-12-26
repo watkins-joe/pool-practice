@@ -18,6 +18,7 @@ import {
 import Welcome from "./Welcome";
 import { clearInput, profilePrefix } from "../globals";
 import { PlayerProfile } from "./LoadPlayerForm";
+import { calculateRating } from "../utils/functions";
 
 interface GameScores {
   playerOneScore: number;
@@ -71,17 +72,26 @@ const ScoreTable: FC = () => {
     updateShowRatings(!showRatings);
   };
 
-  const handleScoreInput = (event: any) => {
+  const handleScoreInput = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     // console.log(event);
-    let enteredScore = event.target.value.trim();
+    // Convert to number for mathematic comparison
+    let enteredScore = Number(event.target.value.trim());
     // console.log(`enteredScore: ${enteredScore}`);
-    if (!enteredScore || enteredScore < 0 || enteredScore > 15) {
+    if (
+      !enteredScore ||
+      enteredScore < 0 ||
+      enteredScore > 15 ||
+      !Number.isInteger(enteredScore)
+    ) {
       setScoreInputHasError(true);
     } else {
       setScoreInputHasError(false);
     }
 
-    setScore(enteredScore);
+    // Convert back to string for storage
+    setScore(enteredScore.toString());
   };
 
   const handleSubmitScore = (event: any) => {
@@ -127,21 +137,11 @@ const ScoreTable: FC = () => {
       return {
         playerOne: {
           ...prevState.playerOne,
-          rating:
-            Math.round(
-              (prevState.playerOne.totalPoints /
-                prevState.playerOne.gamesPlayed) *
-                10
-            ) / 10,
+          rating: calculateRating(prevState.playerOne),
         },
         playerTwo: {
           ...prevState.playerTwo,
-          rating:
-            Math.round(
-              (prevState.playerTwo.totalPoints /
-                prevState.playerTwo.gamesPlayed) *
-                10
-            ) / 10,
+          rating: calculateRating(prevState.playerTwo),
         },
       };
     });
@@ -164,6 +164,14 @@ const ScoreTable: FC = () => {
 
     players.playerOne.totalPoints -= deletedGame.playerOneScore;
     players.playerTwo.totalPoints -= deletedGame.playerTwoScore;
+
+    players.playerOne.gamesPlayed--;
+    players.playerTwo.gamesPlayed--;
+
+    players.playerOne.rating = calculateRating(players.playerOne);
+    players.playerTwo.rating = calculateRating(players.playerTwo);
+
+    // console.log(players);
 
     setGames((prevGames) => {
       return prevGames.filter((_, index) => {
@@ -282,7 +290,7 @@ const ScoreTable: FC = () => {
           }}
         >
           <TextField
-            type="number"
+            type="tel"
             id="playerOneScore"
             name="playerOneScore"
             label={`Score for ${players.playerOne.name}`}
