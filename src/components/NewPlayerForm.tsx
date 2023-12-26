@@ -1,9 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import { TextField, Button, IconButton, InputAdornment } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-
-import { PlayerTypeRadioProps } from "./PlayerTypeRadio";
 import { clearInput } from "../globals";
+import { PlayerTypeRadioProps } from "../utils/types";
 
 const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
   selectedPlayer,
