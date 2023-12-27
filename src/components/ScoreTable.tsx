@@ -72,7 +72,7 @@ const ScoreTable: FC = () => {
     setScore(enteredScore.toString());
   };
 
-  const handleSubmitScore = (event: any) => {
+  const handleSubmitScore = (event: React.FormEvent<HTMLFormElement>) => {
     // console.log(score);
     // console.log(games);
 
@@ -278,7 +278,6 @@ const ScoreTable: FC = () => {
             style={{ maxWidth: "10rem" }}
             helperText={scoreInputHasError && "Enter a score from 0 to 15"}
             error={scoreInputHasError}
-            autoFocus
             InputProps={{
               endAdornment: (
                 <>

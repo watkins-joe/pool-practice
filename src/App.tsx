@@ -10,7 +10,7 @@ function App() {
     };
   }, []);
 
-  const alertUser = (event: any) => {
+  const alertUser = (event: BeforeUnloadEvent) => {
     event.preventDefault();
     return (event.returnValue = "");
   };

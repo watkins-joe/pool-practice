@@ -9,7 +9,7 @@ import {
 const PlayerSelectRadio: FC = () => {
   const [selectedOption, setSelectedOption] = useState("");
 
-  const handleOptionChange = (event: any) => {
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
     setSelectedOption(event.target.value);
   };
