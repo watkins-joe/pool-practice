@@ -33,7 +33,9 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
     if (!searchQuery) setSearchQueryIsEmpty(true);
   }, [searchQuery]);
 
-  const handleSearchInput = (event: any) => {
+  const handleSearchInput = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     const enteredQuery = event.target.value;
     if (noSearchResults) setNoSearchResults(false);
     if (!enteredQuery.trim()) {
@@ -44,7 +46,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
     setSearchQuery(enteredQuery);
   };
 
-  const handleSubmitSearch = (event: any) => {
+  const handleSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(searchQuery.trim());
     if (searchQuery.trim().length === 0) {
@@ -67,7 +69,9 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
     setSearchResults([results as unknown as PlayerProfile]);
   };
 
-  const handleSelectPlayerProfile = (event: any) => {
+  const handleSelectPlayerProfile = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const playerName = event.target.value;
     const playerProfile: PlayerProfile | undefined = searchResults.find(
       (result) => playerName === result.name
@@ -122,7 +126,6 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           size="small"
           value={searchQuery}
           onChange={(event) => handleSearchInput(event)}
-          autoFocus
           helperText={
             noSearchResults
               ? `No results found for "${searchQuery.trim()}"`

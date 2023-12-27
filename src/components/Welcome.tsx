@@ -15,7 +15,7 @@ import { WelcomeProps } from "../utils/types";
 const Welcome: FC<WelcomeProps> = ({ setPlayers }) => {
   const [showLoadGame, setShowLoadGame] = useState(false);
 
-  const handleLoadGame = (event: any) => {
+  const handleLoadGame = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log(event);
     setShowLoadGame(true);
   };

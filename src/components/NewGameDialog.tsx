@@ -21,7 +21,7 @@ const LoadGameDialog: FC<LoadGameDialogProps> = ({
 }) => {
   const [selectedPlayer, setSelectedPlayer] = useState("Player 1");
 
-  const handleOptionChange = (event: any) => {
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
     setSelectedPlayer(event.target.value);
   };

@@ -15,7 +15,9 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
     if (!enteredName) setEnteredNameIsEmpty(true);
   }, [enteredName]);
 
-  const handleNameInput = (event: any) => {
+  const handleNameInput = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     console.log(event);
     const name = event.target.value;
     if (!name.trim()) {
@@ -26,7 +28,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
     setEnteredName(name);
   };
 
-  const handleNewPlayer = (event: any) => {
+  const handleNewPlayer = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (selectedPlayer === "Player 1") {
       setPlayers((prevState) => {
@@ -76,7 +78,6 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
           onChange={(event) => handleNameInput(event)}
           helperText={enteredNameIsEmpty && "Name cannot be blank"}
           error={enteredNameIsEmpty}
-          autoFocus
           InputProps={{
             endAdornment: (
               <>
