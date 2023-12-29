@@ -1,9 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
@@ -15,10 +10,11 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import Welcome from "./Welcome";
-import { clearInput, profilePrefix } from "../globals";
-import { calculateRating, scoreIsValid } from "../utils/functions";
-import { GameScores, Game } from "../utils/types";
+import Welcome from "../Welcome";
+import { clearInput, profilePrefix } from "../../globals";
+import { calculateRating, scoreIsValid } from "../../utils/functions";
+import { GameScores, Game } from "../../utils/types";
+import styles from "./ScoreTable.module.scss";
 
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
@@ -161,22 +157,10 @@ const ScoreTable: FC = () => {
   return (
     <>
       {games.length === 0 && <Welcome setPlayers={setPlayers} />}
-      <Table aria-label="simple table" style={{ marginBottom: "88px" }}>
-        <TableHead
-          sx={{
-            [`& .${tableCellClasses.root}`]: {
-              borderBottom: "none",
-            },
-          }}
-          style={{
-            position: "sticky",
-            top: 0,
-            backgroundColor: "rgb(242, 242, 242)",
-            zIndex: 1,
-          }}
-        >
-          <TableRow>
-            <TableCell align="center" padding="none">
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <td>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <FormGroup>
                   <FormControlLabel
@@ -186,49 +170,38 @@ const ScoreTable: FC = () => {
                   />
                 </FormGroup>
               </div>
-            </TableCell>
-            <TableCell align="center" padding="none">
-              Total games played: {games.length}
-            </TableCell>
-          </TableRow>
-          {showRatings && (
-            <>
-              <TableRow>
-                <TableCell align="center" padding="none">
-                  Rating:
-                </TableCell>
-                <TableCell align="center" padding="none">
-                  Rating:
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell align="center" padding="none">
-                  {players.playerOne.rating}
-                </TableCell>
-                <TableCell align="center" padding="none">
+            </td>
+            <td>Games played: {games.length}</td>
+          </tr>
+          <tr className={styles["player--info"]}>
+            <td align="center">
+              <span className={styles["player--name"]}>
+                {players.playerOne.name}
+              </span>
+              <br />
+              {showRatings && (
+                <span className={styles["player--rating"]}>
+                  {showRatings && players.playerOne.rating}
+                </span>
+              )}
+            </td>
+            <td align="center">
+              <span className={styles["player--name"]}>
+                {players.playerTwo.name}
+              </span>
+              <br />
+              {showRatings && (
+                <span className={styles["player--rating"]}>
                   {players.playerTwo.rating}
-                </TableCell>
-              </TableRow>
-            </>
-          )}
-          <TableRow>
-            <TableCell align="center">{players.playerOne.name}</TableCell>
-            <TableCell align="center">{players.playerTwo.name}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+                </span>
+              )}
+            </td>
+          </tr>
+        </thead>
+        <tbody className={styles.games}>
           {games.map((game, index) => (
-            <TableRow
-              key={game.id}
-              id={String(game.id)}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell
-                component="th"
-                scope="row"
-                align="center"
-                style={{ position: "relative" }}
-              >
+            <tr key={game.id} id={String(game.id)}>
+              <td align="center" style={{ position: "relative" }}>
                 <IconButton
                   style={{
                     position: "absolute",
@@ -243,22 +216,13 @@ const ScoreTable: FC = () => {
                   <ClearIcon />
                 </IconButton>
                 {game.playerOneScore}
-              </TableCell>
-              <TableCell component="th" scope="row" align="center">
-                {game.playerTwoScore}
-              </TableCell>
-            </TableRow>
+              </td>
+              <td align="center">{game.playerTwoScore}</td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
-      <div
-        style={{
-          position: "fixed",
-          bottom: 0,
-          backgroundColor: "#f2f2f2",
-          width: "100%",
-        }}
-      >
+        </tbody>
+      </table>
+      <div className={styles.scoreForm}>
         <form
           onSubmit={handleSubmitScore}
           style={{
