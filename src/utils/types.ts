@@ -19,10 +19,16 @@ export interface LoadGameDialogProps {
 
 export interface PlayerProfile {
   name: string;
-  rating: number;
-  totalPoints: number;
-  gamesPlayed: number;
+  stats: PlayerStats;
 }
+
+export type PlayerStats = {
+  [key in "EightBall" | "TenBall"]: {
+    rating: number;
+    totalPoints: number;
+    gamesPlayed: number;
+  };
+};
 
 export interface PlayerTypeRadioProps {
   selectedPlayer: string;
