@@ -10,11 +10,13 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import Welcome from "../Welcome";
+import Welcome from "../Welcome/Welcome";
 import { clearInput, profilePrefix } from "../../globals";
 import { calculateRating, scoreIsValid } from "../../utils/functions";
 import { GameScores, Game } from "../../utils/types";
 import styles from "./ScoreTable.module.scss";
+import TenBall from "../../images/6099_10ball.png";
+import { GameTypes } from "../../utils/constants";
 
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
@@ -22,19 +24,38 @@ const ScoreTable: FC = () => {
   const [players, setPlayers] = useState<Game>({
     playerOne: {
       name: "Player 1",
-      rating: 8.0,
-      totalPoints: 0,
-      gamesPlayed: 0,
+      stats: {
+        EightBall: {
+          rating: 8,
+          totalPoints: 0,
+          gamesPlayed: 0,
+        },
+        TenBall: {
+          rating: 4,
+          totalPoints: 0,
+          gamesPlayed: 0,
+        },
+      },
     },
     playerTwo: {
       name: "Player 2",
-      rating: 8.0,
-      totalPoints: 0,
-      gamesPlayed: 0,
+      stats: {
+        EightBall: {
+          rating: 8,
+          totalPoints: 0,
+          gamesPlayed: 0,
+        },
+        TenBall: {
+          rating: 4,
+          totalPoints: 0,
+          gamesPlayed: 0,
+        },
+      },
     },
   });
   const [scoreInputHasError, setScoreInputHasError] = useState(false);
   const [showRatings, updateShowRatings] = useState(false);
+  const [isTenBall, updateIsTenBall] = useState(false);
 
   useEffect(() => {
     savePlayerData();
@@ -51,6 +72,14 @@ const ScoreTable: FC = () => {
     updateShowRatings(!showRatings);
   };
 
+  const handleIsTenBallChanges = () => {
+    updateIsTenBall(!isTenBall);
+    // Empty list of games when game is switched
+    setGames(() => {
+      return [];
+    });
+  };
+
   const handleScoreInput = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -58,7 +87,7 @@ const ScoreTable: FC = () => {
     // Convert to number for mathematic comparison
     let enteredScore = Number(event.target.value.trim());
     // console.log(`enteredScore: ${enteredScore}`);
-    if (!scoreIsValid(enteredScore)) {
+    if (!scoreIsValid(enteredScore, isTenBall)) {
       setScoreInputHasError(true);
     } else {
       setScoreInputHasError(false);
@@ -83,11 +112,33 @@ const ScoreTable: FC = () => {
     const playerOne = players.playerOne;
     const playerTwo = players.playerTwo;
 
-    playerOne.totalPoints += Number(score);
-    playerTwo.totalPoints += 15 - Number(score);
+    if (isTenBall) {
+      playerOne.stats.TenBall.totalPoints += Number(score);
+      playerTwo.stats.TenBall.totalPoints +=
+        GameTypes.TenBall.maxScore - Number(score);
 
-    playerOne.gamesPlayed += 1;
-    playerTwo.gamesPlayed += 1;
+      playerOne.stats.TenBall.gamesPlayed += 1;
+      playerTwo.stats.TenBall.gamesPlayed += 1;
+
+      setGames((prevGames) => [
+        ...prevGames,
+        {
+          playerOneScore: Number(score),
+          playerTwoScore: GameTypes.TenBall.maxScore - Number(score),
+          id: newID,
+        },
+      ]);
+
+      clearInput(setScore, setScoreInputHasError);
+
+      return;
+    }
+
+    playerOne.stats.EightBall.totalPoints += Number(score);
+    playerTwo.stats.EightBall.totalPoints += 15 - Number(score);
+
+    playerOne.stats.EightBall.gamesPlayed += 1;
+    playerTwo.stats.EightBall.gamesPlayed += 1;
 
     // console.log(`score before adding score to game: ${score}`);
     setGames((prevGames) => [
@@ -108,14 +159,36 @@ const ScoreTable: FC = () => {
 
     setPlayers((prevState) => {
       console.log(prevState);
+      if (isTenBall) {
+        const playerOne = prevState.playerOne;
+        playerOne.stats.TenBall.rating = calculateRating(playerOne, isTenBall);
+        const playerTwo = prevState.playerTwo;
+        prevState.playerTwo.stats.TenBall.rating = calculateRating(
+          playerTwo,
+          isTenBall
+        );
+        return {
+          playerOne: {
+            ...playerOne,
+          },
+          playerTwo: {
+            ...playerTwo,
+          },
+        };
+      }
+      const playerOne = prevState.playerOne;
+      playerOne.stats.EightBall.rating = calculateRating(playerOne, isTenBall);
+      const playerTwo = prevState.playerTwo;
+      prevState.playerTwo.stats.EightBall.rating = calculateRating(
+        playerTwo,
+        isTenBall
+      );
       return {
         playerOne: {
-          ...prevState.playerOne,
-          rating: calculateRating(prevState.playerOne),
+          ...playerOne,
         },
         playerTwo: {
-          ...prevState.playerTwo,
-          rating: calculateRating(prevState.playerTwo),
+          ...playerTwo,
         },
       };
     });
@@ -136,14 +209,22 @@ const ScoreTable: FC = () => {
   const handleDeleteGame = (gameIndex: number) => {
     const deletedGame = games[gameIndex];
 
-    players.playerOne.totalPoints -= deletedGame.playerOneScore;
-    players.playerTwo.totalPoints -= deletedGame.playerTwoScore;
+    if (isTenBall) {
+      players.playerOne.stats.TenBall.totalPoints -= deletedGame.playerOneScore;
+      players.playerTwo.stats.TenBall.totalPoints -= deletedGame.playerTwoScore;
 
-    players.playerOne.gamesPlayed--;
-    players.playerTwo.gamesPlayed--;
+      players.playerOne.stats.TenBall.gamesPlayed--;
+      players.playerTwo.stats.TenBall.gamesPlayed--;
 
-    players.playerOne.rating = calculateRating(players.playerOne);
-    players.playerTwo.rating = calculateRating(players.playerTwo);
+      players.playerOne.stats.TenBall.rating = calculateRating(
+        players.playerOne,
+        isTenBall
+      );
+      players.playerTwo.stats.TenBall.rating = calculateRating(
+        players.playerTwo,
+        isTenBall
+      );
+    }
 
     // console.log(players);
 
@@ -166,7 +247,14 @@ const ScoreTable: FC = () => {
                   <FormControlLabel
                     control={<Switch onChange={handleShowRatingsChanges} />}
                     label="Show ratings?"
-                    labelPlacement="start"
+                    labelPlacement="top"
+                  />
+                </FormGroup>
+                <FormGroup style={{ justifyContent: "center" }}>
+                  <FormControlLabel
+                    control={<Switch onChange={handleIsTenBallChanges} />}
+                    label="10 Ball"
+                    labelPlacement="top"
                   />
                 </FormGroup>
               </div>
@@ -181,7 +269,9 @@ const ScoreTable: FC = () => {
               <br />
               {showRatings && (
                 <span className={styles["player--rating"]}>
-                  {showRatings && players.playerOne.rating}
+                  {isTenBall
+                    ? players.playerOne.stats.TenBall.rating
+                    : players.playerOne.stats.EightBall.rating}
                 </span>
               )}
             </td>
@@ -192,7 +282,9 @@ const ScoreTable: FC = () => {
               <br />
               {showRatings && (
                 <span className={styles["player--rating"]}>
-                  {players.playerTwo.rating}
+                  {isTenBall
+                    ? players.playerTwo.stats.TenBall.rating
+                    : players.playerTwo.stats.EightBall.rating}
                 </span>
               )}
             </td>
@@ -240,7 +332,14 @@ const ScoreTable: FC = () => {
             placeholder={"0"}
             value={score}
             style={{ maxWidth: "10rem" }}
-            helperText={scoreInputHasError && "Enter a score from 0 to 15"}
+            helperText={
+              scoreInputHasError &&
+              `Enter a score from ${GameTypes.minScore} to ${
+                isTenBall
+                  ? GameTypes.TenBall.maxScore
+                  : GameTypes.EightBall.maxScore
+              }`
+            }
             error={scoreInputHasError}
             InputProps={{
               endAdornment: (

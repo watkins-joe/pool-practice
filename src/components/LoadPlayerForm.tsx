@@ -86,9 +86,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           ...prevState,
           playerOne: {
             name: selectedPlayerProfile!.name,
-            rating: selectedPlayerProfile!.rating,
-            totalPoints: selectedPlayerProfile!.totalPoints,
-            gamesPlayed: selectedPlayerProfile!.gamesPlayed,
+            stats: selectedPlayerProfile!.stats,
           },
         };
       });
@@ -98,9 +96,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           ...prevState,
           playerTwo: {
             name: selectedPlayerProfile!.name,
-            rating: selectedPlayerProfile!.rating,
-            totalPoints: selectedPlayerProfile!.totalPoints,
-            gamesPlayed: selectedPlayerProfile!.gamesPlayed,
+            stats: selectedPlayerProfile!.stats,
           },
         };
       });
@@ -181,10 +177,19 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
                       Name: <code>{result.name}</code>
                     </div>
                     <div>
-                      Rating: <code>{result.rating}</code>
+                      8 Ball Rating:{" "}
+                      <code>{result.stats.EightBall.rating}</code>
                     </div>
                     <div>
-                      Games played: <code>{result.gamesPlayed}</code>
+                      8 Ball Games played:{" "}
+                      <code>{result.stats.EightBall.gamesPlayed}</code>
+                    </div>
+                    <div>
+                      10 Ball Rating: <code>{result.stats.TenBall.rating}</code>
+                    </div>
+                    <div>
+                      10 Ball Games played:{" "}
+                      <code>{result.stats.TenBall.gamesPlayed}</code>
                     </div>
                   </div>
                 }

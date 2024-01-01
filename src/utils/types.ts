@@ -19,10 +19,32 @@ export interface LoadGameDialogProps {
 
 export interface PlayerProfile {
   name: string;
-  rating: number;
-  totalPoints: number;
-  gamesPlayed: number;
+  stats: PlayerStats;
 }
+
+const test: PlayerProfile = {
+  name: "Joe",
+  stats: {
+    EightBall: {
+      rating: 8,
+      totalPoints: 0,
+      gamesPlayed: 0,
+    },
+    TenBall: {
+      rating: 4, // default
+      totalPoints: 0,
+      gamesPlayed: 0,
+    },
+  },
+};
+
+export type PlayerStats = {
+  [key in "EightBall" | "TenBall"]: {
+    rating: number;
+    totalPoints: number;
+    gamesPlayed: number;
+  };
+};
 
 export interface PlayerTypeRadioProps {
   selectedPlayer: string;
