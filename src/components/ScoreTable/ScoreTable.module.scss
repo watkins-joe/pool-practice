@@ -1,0 +1,64 @@
+@import "../../variables.scss";
+
+table.table {
+  width: 100%;
+  margin-bottom: 88px;
+  text-align: center;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-weight: 500;
+  > thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    > tr {
+      > td {
+        background-color: $--default-bg-secondary;
+        @media (prefers-color-scheme: dark) {
+          background-color: $--dark-bg-secondary;
+        }
+      }
+      &:last-of-type > * {
+        padding: 1rem;
+      }
+      &.player--info {
+        > td {
+          > span {
+            &.player--name {
+              font-size: 1.5rem;
+            }
+            &.player--rating {
+              display: inline-block;
+              padding: 0.5rem;
+              font-size: 1rem;
+              font-weight: 400;
+              font-family: monospace;
+            }
+          }
+        }
+      }
+    }
+  }
+  tbody.games {
+    tr {
+      td {
+        padding: 1rem;
+        font-weight: 400;
+        font-size: 1.5rem;
+        border-bottom: 1px solid #e0e0e0;
+      }
+    }
+  }
+}
+
+div {
+  &.scoreForm {
+    position: fixed;
+    bottom: 0;
+    background-color: $--default-bg-primary;
+    width: 100%;
+    @media (prefers-color-scheme: dark) {
+      background-color: $--dark-bg-secondary;
+    }
+  }
+}

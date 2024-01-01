@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./App.css";
-import ScoreTable from "./components/ScoreTable";
+import ScoreTable from "./components/ScoreTable/ScoreTable";
 
 function App() {
   useEffect(() => {
