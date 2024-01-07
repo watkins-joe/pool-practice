@@ -87,9 +87,9 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
     ) {
       localStorage.removeItem(`${profilePrefix}-${playerName}`);
       alert(`Player profile "${playerName}" deleted.`);
+      setSearchResults([]);
+      setSelectedPlayerProfile(undefined);
     }
-    setSearchResults([]);
-    setSelectedPlayerProfile(undefined);
   };
 
   const handleLoadPlayer = () => {
