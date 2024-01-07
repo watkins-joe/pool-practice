@@ -24,7 +24,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   const [searchQueryIsEmpty, setSearchQueryIsEmpty] = useState(false);
   const [noSearchResults, setNoSearchResults] = useState<any>();
 
-  // reset search results when search query modified
+  // reset search results, selected player profile when search query modified
   useEffect(() => {
     if (searchResults) setSearchResults([]);
   }, [searchQuery]);
@@ -77,6 +77,19 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
       (result) => playerName === result.name
     );
     setSelectedPlayerProfile(playerProfile);
+  };
+
+  const handleDeletePlayer = (playerName: string) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete player profile "${playerName}"?`
+      )
+    ) {
+      localStorage.removeItem(`${profilePrefix}-${playerName}`);
+      alert(`Player profile "${playerName}" deleted.`);
+    }
+    setSearchResults([]);
+    setSelectedPlayerProfile(undefined);
   };
 
   const handleLoadPlayer = () => {
@@ -166,7 +179,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           style={{ marginBottom: "1rem" }}
           onChange={(event) => handleSelectPlayerProfile(event)}
         >
-          {searchResults.map((result: PlayerProfile, index) => {
+          {searchResults.map((result: PlayerProfile) => {
             return (
               <FormControlLabel
                 value={result.name}
@@ -191,8 +204,21 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
                       10 Ball Games played:{" "}
                       <code>{result.stats.TenBall.gamesPlayed}</code>
                     </div>
+                    <IconButton
+                      style={{
+                        position: "absolute",
+                        right: "0",
+                        top: "0",
+                      }}
+                      color="error"
+                      type="submit"
+                      onClick={() => handleDeletePlayer(result.name)}
+                    >
+                      <ClearIcon />
+                    </IconButton>
                   </div>
                 }
+                key={Math.random().toString().slice(2)}
               />
             );
           })}
