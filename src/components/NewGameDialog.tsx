@@ -12,11 +12,12 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { FC, useState } from "react";
 import PlayerTypeRadio from "./PlayerTypeRadio";
-import { LoadGameDialogProps } from "../utils/types";
+import { NewGameDialogProps } from "../utils/types";
 
-const LoadGameDialog: FC<LoadGameDialogProps> = ({
+const NewGameDialog: FC<NewGameDialogProps> = ({
   open,
   onClose,
+  players,
   setPlayers,
 }) => {
   const [selectedPlayer, setSelectedPlayer] = useState("Player 1");
@@ -81,6 +82,7 @@ const LoadGameDialog: FC<LoadGameDialogProps> = ({
           </RadioGroup>
         </FormControl>
         <PlayerTypeRadio
+          players={players}
           selectedPlayer={selectedPlayer}
           setPlayers={setPlayers}
         />
@@ -89,4 +91,4 @@ const LoadGameDialog: FC<LoadGameDialogProps> = ({
   );
 };
 
-export default LoadGameDialog;
+export default NewGameDialog;

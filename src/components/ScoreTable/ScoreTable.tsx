@@ -16,43 +16,12 @@ import { calculateRating, scoreIsValid } from "../../utils/functions";
 import { GameScores, Game } from "../../utils/types";
 import styles from "./ScoreTable.module.scss";
 import TenBall from "../../images/6099_10ball.png";
-import { GameTypes } from "../../utils/constants";
+import { GameTypes, defaultPlayers } from "../../utils/constants";
 
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
   const [score, setScore] = useState("");
-  const [players, setPlayers] = useState<Game>({
-    playerOne: {
-      name: "Player 1",
-      stats: {
-        EightBall: {
-          rating: 8,
-          totalPoints: 0,
-          gamesPlayed: 0,
-        },
-        TenBall: {
-          rating: 4,
-          totalPoints: 0,
-          gamesPlayed: 0,
-        },
-      },
-    },
-    playerTwo: {
-      name: "Player 2",
-      stats: {
-        EightBall: {
-          rating: 8,
-          totalPoints: 0,
-          gamesPlayed: 0,
-        },
-        TenBall: {
-          rating: 4,
-          totalPoints: 0,
-          gamesPlayed: 0,
-        },
-      },
-    },
-  });
+  const [players, setPlayers] = useState<Game>(defaultPlayers);
   const [scoreInputHasError, setScoreInputHasError] = useState(false);
   const [showRatings, updateShowRatings] = useState(false);
   const [isTenBall, updateIsTenBall] = useState(false);
@@ -237,7 +206,9 @@ const ScoreTable: FC = () => {
 
   return (
     <>
-      {games.length === 0 && <Welcome setPlayers={setPlayers} />}
+      {games.length === 0 && (
+        <Welcome players={players} setPlayers={setPlayers} />
+      )}
       <table className={styles.table}>
         <thead>
           <tr>

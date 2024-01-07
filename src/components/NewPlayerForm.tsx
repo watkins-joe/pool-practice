@@ -2,9 +2,9 @@ import { FC, useEffect, useState } from "react";
 import { TextField, Button, IconButton, InputAdornment } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { clearInput, profilePrefix } from "../globals";
-import { PlayerTypeRadioProps } from "../utils/types";
+import { NewPlayerFormProps } from "../utils/types";
 
-const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
+const NewPlayerForm: FC<NewPlayerFormProps> = ({
   selectedPlayer,
   setPlayers,
 }) => {

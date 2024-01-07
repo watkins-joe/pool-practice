@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { FC, useState } from "react";
-import LoadGameDialog from "../NewGameDialog";
+import NewGameDialog from "../NewGameDialog";
 import { WelcomeProps } from "../../utils/types";
 import styles from "./Welcome.module.scss";
 /**
@@ -12,7 +12,7 @@ import styles from "./Welcome.module.scss";
  * when
  */
 
-const Welcome: FC<WelcomeProps> = ({ setPlayers }) => {
+const Welcome: FC<WelcomeProps> = ({ players, setPlayers }) => {
   const [showLoadGame, setShowLoadGame] = useState(false);
 
   const handleLoadGame = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,9 +28,10 @@ const Welcome: FC<WelcomeProps> = ({ setPlayers }) => {
   return (
     <>
       {showLoadGame && (
-        <LoadGameDialog
+        <NewGameDialog
           open={showLoadGame}
           onClose={handleLoadGameClose}
+          players={players}
           setPlayers={setPlayers}
         />
       )}

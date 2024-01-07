@@ -7,9 +7,10 @@ import {
 } from "@mui/material";
 import LoadPlayerForm from "./LoadPlayerForm/LoadPlayerForm";
 import NewPlayerForm from "./NewPlayerForm";
-import { PlayerTypeRadioProps } from "../utils/types";
+import { PlayerRadioProps } from "../utils/types";
 
-const PlayerTypeRadio: FC<PlayerTypeRadioProps> = ({
+const PlayerTypeRadio: FC<PlayerRadioProps> = ({
+  players,
   selectedPlayer,
   setPlayers,
 }) => {
@@ -54,6 +55,7 @@ const PlayerTypeRadio: FC<PlayerTypeRadioProps> = ({
       ) : (
         <LoadPlayerForm
           selectedPlayer={selectedPlayer}
+          players={players}
           setPlayers={setPlayers}
         />
       )}
