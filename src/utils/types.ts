@@ -11,9 +11,10 @@ export interface GameScores {
   id: number;
 }
 
-export interface LoadGameDialogProps {
+export interface NewGameDialogProps {
   open: boolean;
   onClose: () => void;
+  players: Game;
   setPlayers: Dispatch<SetStateAction<Game>>;
 }
 
@@ -30,11 +31,22 @@ export type PlayerStats = {
   };
 };
 
-export interface PlayerTypeRadioProps {
+export interface PlayerRadioProps {
+  players: Game;
   selectedPlayer: string;
   setPlayers: Dispatch<SetStateAction<Game>>;
 }
 
+export interface NewPlayerFormProps {
+  selectedPlayer: string;
+  setPlayers: Dispatch<SetStateAction<Game>>;
+}
+
+export interface LoadPlayerFormProps extends PlayerRadioProps {
+  players: Game;
+}
+
 export interface WelcomeProps {
+  players: Game;
   setPlayers: Dispatch<SetStateAction<Game>>;
 }

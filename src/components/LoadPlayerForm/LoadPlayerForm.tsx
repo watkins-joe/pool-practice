@@ -10,10 +10,13 @@ import {
   InputAdornment,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { clearInput, profilePrefix } from "../globals";
-import { PlayerTypeRadioProps, PlayerProfile } from "../utils/types";
+import { clearInput, profilePrefix } from "../../globals";
+import { PlayerRadioProps, PlayerProfile } from "../../utils/types";
+import styles from "./LoadPlayerForm.module.scss";
+import { defaultPlayers } from "../../utils/constants";
 
-const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
+const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
+  players,
   selectedPlayer,
   setPlayers,
 }) => {
@@ -24,7 +27,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   const [searchQueryIsEmpty, setSearchQueryIsEmpty] = useState(false);
   const [noSearchResults, setNoSearchResults] = useState<any>();
 
-  // reset search results when search query modified
+  // reset search results, selected player profile when search query modified
   useEffect(() => {
     if (searchResults) setSearchResults([]);
   }, [searchQuery]);
@@ -79,8 +82,35 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
     setSelectedPlayerProfile(playerProfile);
   };
 
+  const handleDeletePlayer = (playerName: string) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete player profile "${playerName}"?`
+      )
+    ) {
+      localStorage.removeItem(`${profilePrefix}-${playerName}`);
+      if (players.playerOne.name === playerName) {
+        setPlayers((prevState) => {
+          return { ...prevState, playerOne: defaultPlayers.playerOne };
+        });
+      } else if (players.playerTwo.name === playerName) {
+        setPlayers((prevState) => {
+          return { ...prevState, playerTwo: defaultPlayers.playerTwo };
+        });
+      }
+      alert(`Player profile "${playerName}" deleted.`);
+
+      setSearchResults([]);
+      setSelectedPlayerProfile(undefined);
+    }
+  };
+
   const handleLoadPlayer = () => {
     if (selectedPlayer === "Player 1") {
+      if (selectedPlayerProfile!.name === players.playerTwo.name)
+        return alert(
+          "You cannot load the same player profile for both players."
+        );
       setPlayers((prevState) => {
         return {
           ...prevState,
@@ -91,6 +121,10 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
         };
       });
     } else if (selectedPlayer === "Player 2") {
+      if (selectedPlayerProfile!.name === players.playerOne.name)
+        return alert(
+          "You cannot load the same player profile for both players."
+        );
       setPlayers((prevState) => {
         return {
           ...prevState,
@@ -166,7 +200,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
           style={{ marginBottom: "1rem" }}
           onChange={(event) => handleSelectPlayerProfile(event)}
         >
-          {searchResults.map((result: PlayerProfile, index) => {
+          {searchResults.map((result: PlayerProfile) => {
             return (
               <FormControlLabel
                 value={result.name}
@@ -191,8 +225,18 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
                       10 Ball Games played:{" "}
                       <code>{result.stats.TenBall.gamesPlayed}</code>
                     </div>
+                    <div className={styles.delete}>
+                      <IconButton
+                        color="error"
+                        type="submit"
+                        onClick={() => handleDeletePlayer(result.name)}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    </div>
                   </div>
                 }
+                key={Math.random().toString().slice(2)}
               />
             );
           })}
