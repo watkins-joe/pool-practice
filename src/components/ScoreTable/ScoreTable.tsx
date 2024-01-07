@@ -295,12 +295,7 @@ const ScoreTable: FC = () => {
             <tr key={game.id} id={String(game.id)}>
               <td align="center" style={{ position: "relative" }}>
                 <IconButton
-                  style={{
-                    position: "absolute",
-                    top: "0",
-                    left: "0",
-                    height: "100%",
-                  }}
+                  className={styles.delete}
                   color="error"
                   type="submit"
                   onClick={() => handleDeleteGame(index)}

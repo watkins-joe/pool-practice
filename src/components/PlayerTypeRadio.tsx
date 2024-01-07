@@ -5,7 +5,7 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
-import LoadPlayerForm from "./LoadPlayerForm";
+import LoadPlayerForm from "./LoadPlayerForm/LoadPlayerForm";
 import NewPlayerForm from "./NewPlayerForm";
 import { PlayerTypeRadioProps } from "../utils/types";
 

@@ -10,8 +10,9 @@ import {
   InputAdornment,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { clearInput, profilePrefix } from "../globals";
-import { PlayerTypeRadioProps, PlayerProfile } from "../utils/types";
+import { clearInput, profilePrefix } from "../../globals";
+import { PlayerTypeRadioProps, PlayerProfile } from "../../utils/types";
+import styles from "./LoadPlayerForm.module.scss";
 
 const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
   selectedPlayer,
@@ -205,11 +206,7 @@ const NewPlayerProfileForm: FC<PlayerTypeRadioProps> = ({
                       <code>{result.stats.TenBall.gamesPlayed}</code>
                     </div>
                     <IconButton
-                      style={{
-                        position: "absolute",
-                        right: "0",
-                        top: "0",
-                      }}
+                      className={styles.delete}
                       color="error"
                       type="submit"
                       onClick={() => handleDeletePlayer(result.name)}
