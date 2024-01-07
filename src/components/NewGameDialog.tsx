@@ -35,7 +35,7 @@ const NewGameDialog: FC<NewGameDialogProps> = ({
       //   {...other}
     >
       <DialogTitle>
-        New Game
+        Configure Players
         <IconButton
           aria-label="close"
           onClick={onClose}

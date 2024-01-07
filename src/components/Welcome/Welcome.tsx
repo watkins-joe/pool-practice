@@ -46,9 +46,10 @@ const Welcome: FC<WelcomeProps> = ({ players, setPlayers }) => {
             // disabled={scoreInputHasError}
             onClick={(event) => handleLoadGame(event)}
           >
-            New Game
+            Configure Players
           </Button>
         </div>
+        <p>or enter a score below!</p>
       </div>
     </>
   );
