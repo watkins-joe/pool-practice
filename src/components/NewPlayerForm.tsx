@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { TextField, Button, IconButton, InputAdornment } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { clearInput } from "../globals";
+import { clearInput, profilePrefix } from "../globals";
 import { PlayerTypeRadioProps } from "../utils/types";
 
 const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
@@ -30,6 +30,11 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
 
   const handleNewPlayer = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // if entered name already exists, return
+    if (localStorage.getItem(`${profilePrefix}-${enteredName.trim()}`))
+      return alert(
+        `Player profile for "${enteredName.trim()}" already exists.`
+      );
     if (selectedPlayer === "Player 1") {
       setPlayers((prevState) => {
         return {
@@ -99,7 +104,7 @@ const NewPlayerForm: FC<PlayerTypeRadioProps> = ({
           style={{ marginLeft: "1rem" }}
           disabled={enteredNameIsEmpty}
         >
-          Confirm
+          Create
         </Button>
       </form>
     </>
