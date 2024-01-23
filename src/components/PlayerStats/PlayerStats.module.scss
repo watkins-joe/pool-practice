@@ -1,0 +1,50 @@
+.container {
+  font-family: "Inter";
+  width: 100%;
+
+  .name {
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    letter-spacing: -2px;
+  }
+
+  .game {
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+
+    &:first-child {
+      border-left: none;
+    }
+
+    &--name {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    &--stats {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    &--stat {
+      max-width: 50%;
+      padding: 0.5rem;
+      text-align: center;
+
+      &Name {
+        font-size: 0.875rem;
+      }
+
+      &Value {
+        font-weight: 900;
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .games {
+    display: flex;
+  }
+}

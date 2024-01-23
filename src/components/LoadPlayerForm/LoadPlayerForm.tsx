@@ -11,9 +11,11 @@ import {
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { clearInput, profilePrefix } from "../../globals";
-import { PlayerRadioProps, PlayerProfile } from "../../utils/types";
+import { PlayerRadioProps, PlayerProfile, GameNames } from "../../utils/types";
 import styles from "./LoadPlayerForm.module.scss";
 import { defaultPlayers } from "../../utils/constants";
+import GameStats from "../PlayerStats/PlayerStats";
+import PlayerStats from "../PlayerStats/PlayerStats";
 
 const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
   players,
@@ -206,8 +208,13 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
                 value={result.name}
                 control={<Radio />}
                 label={
-                  <div>
-                    <div>
+                  <div className={styles.results}>
+                    <PlayerStats
+                      gameName={GameNames.EightBall}
+                      playerName={result.name}
+                      stats={result.stats}
+                    />
+                    {/* <div>
                       Name: <code>{result.name}</code>
                     </div>
                     <div>
@@ -224,7 +231,7 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
                     <div>
                       10 Ball Games played:{" "}
                       <code>{result.stats.TenBall.gamesPlayed}</code>
-                    </div>
+                    </div> */}
                     <div className={styles.delete}>
                       <IconButton
                         color="error"

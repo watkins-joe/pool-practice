@@ -1,5 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
 
+export enum GameNames {
+  EightBall = "8 Ball",
+  TenBall = "10 Ball",
+}
+
 export interface Game {
   playerOne: PlayerProfile;
   playerTwo: PlayerProfile;
@@ -35,6 +40,12 @@ export interface PlayerRadioProps {
   players: Game;
   selectedPlayer: string;
   setPlayers: Dispatch<SetStateAction<Game>>;
+}
+
+export interface PlayerStatsProps {
+  gameName: GameNames;
+  playerName: string;
+  stats: PlayerStats;
 }
 
 export interface NewPlayerFormProps {
