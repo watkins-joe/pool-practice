@@ -210,7 +210,7 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
                     <table>
                       <thead>
                         <tr>
-                          <th colSpan={3}>Name: Joe</th>
+                          <th colSpan={3}>Name: {result.name}</th>
                         </tr>
                       </thead>
                       <tbody>
