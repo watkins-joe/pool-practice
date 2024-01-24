@@ -1,5 +1,18 @@
+@import "../../variables.scss";
+
 .delete {
   position: absolute;
   right: 0px;
   top: 0px;
+}
+
+table {
+  border-collapse: collapse;
+
+  td,
+  tr,
+  th {
+    color: $--default-text;
+    padding: 0.3rem;
+  }
 }
