@@ -206,25 +206,40 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
                 value={result.name}
                 control={<Radio />}
                 label={
-                  <div>
-                    <div>
-                      Name: <code>{result.name}</code>
-                    </div>
-                    <div>
-                      8 Ball Rating:{" "}
-                      <code>{result.stats.EightBall.rating}</code>
-                    </div>
-                    <div>
-                      8 Ball Games played:{" "}
-                      <code>{result.stats.EightBall.gamesPlayed}</code>
-                    </div>
-                    <div>
-                      10 Ball Rating: <code>{result.stats.TenBall.rating}</code>
-                    </div>
-                    <div>
-                      10 Ball Games played:{" "}
-                      <code>{result.stats.TenBall.gamesPlayed}</code>
-                    </div>
+                  <>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th colSpan={3}>Name: Joe</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th></th>
+                          <th>8 Ball</th>
+                          <th>10 Ball</th>
+                        </tr>
+                        <tr>
+                          <td>Rating:</td>
+                          <td>
+                            <code>{result.stats.EightBall.rating}</code>
+                          </td>
+                          <td>
+                            <code>{result.stats.TenBall.rating}</code>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Games played:</td>
+                          <td>
+                            <code>{result.stats.EightBall.gamesPlayed}</code>
+                          </td>
+                          <td>
+                            <code>{result.stats.TenBall.gamesPlayed}</code>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
                     <div className={styles.delete}>
                       <IconButton
                         color="error"
@@ -234,7 +249,7 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
                         <ClearIcon />
                       </IconButton>
                     </div>
-                  </div>
+                  </>
                 }
                 key={Math.random().toString().slice(2)}
               />
