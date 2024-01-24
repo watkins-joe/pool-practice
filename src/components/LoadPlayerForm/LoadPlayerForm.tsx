@@ -207,7 +207,7 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
                 control={<Radio />}
                 label={
                   <>
-                    <table>
+                    <table className={styles.stats}>
                       <thead>
                         <tr>
                           <th colSpan={3}>Name: {result.name}</th>
