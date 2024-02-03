@@ -307,12 +307,17 @@ const ScoreTable: FC = () => {
               }`
             }
             error={scoreInputHasError}
+            InputLabelProps={{
+              className: styles["input--label"],
+            }}
             InputProps={{
+              className: styles.input,
               endAdornment: (
                 <>
                   {score && (
                     <InputAdornment position="end">
                       <IconButton
+                        className={styles.clearButton}
                         onClick={() =>
                           clearInput(setScore, setScoreInputHasError)
                         }

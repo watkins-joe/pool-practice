@@ -9,10 +9,10 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-
+import styles from "./NewGameDialog.module.scss";
 import { FC, useState } from "react";
-import PlayerTypeRadio from "./PlayerTypeRadio";
-import { NewGameDialogProps } from "../utils/types";
+import PlayerTypeRadio from "../PlayerTypeRadio";
+import { NewGameDialogProps } from "../../utils/types";
 
 const NewGameDialog: FC<NewGameDialogProps> = ({
   open,
@@ -29,6 +29,7 @@ const NewGameDialog: FC<NewGameDialogProps> = ({
   return (
     <Dialog
       sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 635 } }}
+      className={styles.dialog}
       maxWidth="xs"
       //   TransitionProps={{ onEntering: handleEntering }}
       open={open}
