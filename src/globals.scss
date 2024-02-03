@@ -22,26 +22,4 @@ body {
   td {
     color: $--dark-text;
   }
-
-  .input {
-    color: $--default-text;
-    @media (prefers-color-scheme: dark) {
-      color: $--dark-text;
-      border-top: 1px solid $--dark-border;
-      border-right: 1px solid $--dark-border;
-      border-bottom: 1px solid $--dark-border;
-      border-left: 1px solid $--dark-border;
-    }
-    &--label {
-      color: $--default-text;
-      @media (prefers-color-scheme: dark) {
-        color: $--dark-text;
-      }
-    }
-    .clearButton {
-      @media (prefers-color-scheme: dark) {
-        color: $--dark-border;
-      }
-    }
-  }
 }

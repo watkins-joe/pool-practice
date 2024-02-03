@@ -14,8 +14,8 @@ import Welcome from "../Welcome/Welcome";
 import { clearInput, profilePrefix } from "../../globals";
 import { calculateRating, scoreIsValid } from "../../utils/functions";
 import { GameScores, Game } from "../../utils/types";
+import InputStyles from "../Input.module.scss";
 import styles from "./ScoreTable.module.scss";
-import TenBall from "../../images/6099_10ball.png";
 import { GameTypes, defaultPlayers } from "../../utils/constants";
 
 const ScoreTable: FC = () => {
@@ -308,16 +308,16 @@ const ScoreTable: FC = () => {
             }
             error={scoreInputHasError}
             InputLabelProps={{
-              className: styles["input--label"],
+              className: InputStyles["input--label"],
             }}
             InputProps={{
-              className: styles.input,
+              className: InputStyles.input,
               endAdornment: (
                 <>
                   {score && (
                     <InputAdornment position="end">
                       <IconButton
-                        className={styles.clearButton}
+                        className={InputStyles.clearButton}
                         onClick={() =>
                           clearInput(setScore, setScoreInputHasError)
                         }
