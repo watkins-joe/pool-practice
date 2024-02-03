@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { FC, useState } from "react";
-import NewGameDialog from "../NewGameDialog";
+import NewGameDialog from "../NewGameDialog/NewGameDialog";
 import { WelcomeProps } from "../../utils/types";
 import styles from "./Welcome.module.scss";
 /**
