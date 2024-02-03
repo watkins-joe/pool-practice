@@ -29,7 +29,6 @@ const NewGameDialog: FC<NewGameDialogProps> = ({
   return (
     <Dialog
       sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 635 } }}
-      className={styles.dialog}
       maxWidth="xs"
       //   TransitionProps={{ onEntering: handleEntering }}
       open={open}
