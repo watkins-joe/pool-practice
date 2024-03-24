@@ -60,16 +60,25 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
   };
 
   const searchForPlayers = (searchQuery: string) => {
-    let results = localStorage.getItem(
-      `${profilePrefix}-${searchQuery.trim()}`
-    );
-    if (!results) {
+    const resultsList: PlayerProfile[] = [];
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const [key, _] of Object.entries(localStorage)) {
+      if (!key.startsWith(profilePrefix)) continue;
+      const keySlice = key.slice(9); // "poolPrac-Joe" => "Joe"
+      const profileName = keySlice.toLowerCase(); // 'Joe' => 'joe'
+      const searchToLC = searchQuery.trim().toLowerCase();
+      console.log(profileName.includes(searchToLC));
+      if (!profileName.includes(searchToLC)) continue;
+      const foundProfile = localStorage.getItem(key);
+      resultsList.push(JSON.parse(foundProfile!));
+    }
+
+    if (!resultsList.length) {
       setNoSearchResults(true);
       return;
     }
-    results = JSON.parse(results);
-    console.log(results);
-    setSearchResults([results as unknown as PlayerProfile]);
+    setSearchResults(resultsList);
   };
 
   const handleSelectPlayerProfile = (
@@ -161,7 +170,7 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
               ? `No results found for "${searchQuery.trim()}"`
               : searchQueryIsEmpty
               ? "Search cannot be empty"
-              : "Name is case sensitive"
+              : "Search is not case sensitive"
           }
           error={noSearchResults || searchQueryIsEmpty}
           InputProps={{
@@ -192,8 +201,7 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
           Search
         </Button>
       </form>
-
-      <FormControl>
+      <FormControl className={styles.resultsList}>
         <RadioGroup
           aria-labelledby="demo-row-radio-buttons-group-label"
           name="row-radio-buttons-group"
@@ -205,6 +213,8 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
               <FormControlLabel
                 value={result.name}
                 control={<Radio />}
+                style={{ position: "relative" }}
+                className={styles.result}
                 label={
                   <>
                     <table className={styles.stats}>
@@ -256,17 +266,18 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
             );
           })}
         </RadioGroup>
-        {searchResults && (
-          <Button
-            variant="outlined"
-            color="success"
-            onClick={handleLoadPlayer}
-            disabled={!selectedPlayerProfile}
-          >
-            Load selected player
-          </Button>
-        )}
       </FormControl>
+      {searchResults && (
+        <Button
+          variant="outlined"
+          color="success"
+          onClick={handleLoadPlayer}
+          disabled={!selectedPlayerProfile}
+          className={styles.loadPlayerBtn}
+        >
+          Load selected player
+        </Button>
+      )}
     </>
   );
 };

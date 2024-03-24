@@ -6,6 +6,16 @@
   top: 0px;
 }
 
+.result:not(:first-child) {
+  border-top: #c4c4c4 solid 1px;
+  width: 100%;
+}
+
+.resultsList {
+  max-height: 500px;
+  overflow: scroll;
+}
+
 table {
   border-collapse: collapse;
 
