@@ -1,0 +1,14 @@
+# Build
+build/
+dev/
+dist-transpiled/
+dist/
+public/
+www/
+
+# Node
+node_modules
+
+# Settings
+.github
+.vscode

@@ -1,9 +1,9 @@
-@import "../../variables.scss";
+@import "../../variables";
 
 .delete {
   position: absolute;
-  right: 0px;
-  top: 0px;
+  right: 0;
+  top: 0;
 }
 
 .result:not(:first-child) {

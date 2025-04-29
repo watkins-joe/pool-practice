@@ -1,17 +1,21 @@
-@import "../variables.scss";
+@import "../variables";
 
 .input {
   color: $--default-text;
+
   @media (prefers-color-scheme: dark) {
     color: $--dark-text !important; // TODO: !important tag needed to overrule the MuiInputLabel-root color of `rgba(0, 0, 0, 0.6)`. Look into how to not have to use this.
     border: 1px solid $--dark-border;
   }
+
   &--label {
     color: $--default-text;
+
     @media (prefers-color-scheme: dark) {
       color: $--dark-text !important; // TODO: !important tag needed to overrule the MuiInputLabel-root color of `rgba(0, 0, 0, 0.6)`. Look into how to not have to use this.
     }
   }
+
   .clearButton {
     @media (prefers-color-scheme: dark) {
       color: $--dark-border;
