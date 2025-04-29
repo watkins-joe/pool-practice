@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from 'react';
 import {
   FormControl,
   RadioGroup,
@@ -7,20 +7,20 @@ import {
   TextField,
   Button,
   IconButton,
-  InputAdornment,
-} from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
-import { clearInput, profilePrefix } from "../../globals";
-import { PlayerRadioProps, PlayerProfile } from "../../utils/types";
-import styles from "./LoadPlayerForm.module.scss";
-import { defaultPlayers } from "../../utils/constants";
+  InputAdornment
+} from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import { clearInput, profilePrefix } from '../../globals';
+import { PlayerRadioProps, PlayerProfile } from '../../utils/types';
+import styles from './LoadPlayerForm.module.scss';
+import { defaultPlayers } from '../../utils/constants';
 
 const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
   players,
   selectedPlayer,
-  setPlayers,
+  setPlayers
 }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<PlayerProfile[]>([]);
   const [selectedPlayerProfile, setSelectedPlayerProfile] =
     useState<PlayerProfile>();
@@ -86,7 +86,7 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
   ) => {
     const playerName = event.target.value;
     const playerProfile: PlayerProfile | undefined = searchResults.find(
-      (result) => playerName === result.name
+      result => playerName === result.name
     );
     setSelectedPlayerProfile(playerProfile);
   };
@@ -99,11 +99,11 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
     ) {
       localStorage.removeItem(`${profilePrefix}-${playerName}`);
       if (players.playerOne.name === playerName) {
-        setPlayers((prevState) => {
+        setPlayers(prevState => {
           return { ...prevState, playerOne: defaultPlayers.playerOne };
         });
       } else if (players.playerTwo.name === playerName) {
-        setPlayers((prevState) => {
+        setPlayers(prevState => {
           return { ...prevState, playerTwo: defaultPlayers.playerTwo };
         });
       }
@@ -115,32 +115,32 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
   };
 
   const handleLoadPlayer = () => {
-    if (selectedPlayer === "Player 1") {
+    if (selectedPlayer === 'Player 1') {
       if (selectedPlayerProfile!.name === players.playerTwo.name)
         return alert(
-          "You cannot load the same player profile for both players."
+          'You cannot load the same player profile for both players.'
         );
-      setPlayers((prevState) => {
+      setPlayers(prevState => {
         return {
           ...prevState,
           playerOne: {
             name: selectedPlayerProfile!.name,
-            stats: selectedPlayerProfile!.stats,
-          },
+            stats: selectedPlayerProfile!.stats
+          }
         };
       });
-    } else if (selectedPlayer === "Player 2") {
+    } else if (selectedPlayer === 'Player 2') {
       if (selectedPlayerProfile!.name === players.playerOne.name)
         return alert(
-          "You cannot load the same player profile for both players."
+          'You cannot load the same player profile for both players.'
         );
-      setPlayers((prevState) => {
+      setPlayers(prevState => {
         return {
           ...prevState,
           playerTwo: {
             name: selectedPlayerProfile!.name,
-            stats: selectedPlayerProfile!.stats,
-          },
+            stats: selectedPlayerProfile!.stats
+          }
         };
       });
     }
@@ -152,11 +152,11 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
     <>
       <form
         style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "1rem",
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: '1rem'
         }}
-        onSubmit={(event) => handleSubmitSearch(event)}
+        onSubmit={event => handleSubmitSearch(event)}
       >
         <TextField
           id="standard-basic"
@@ -164,13 +164,13 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
           variant="outlined"
           size="small"
           value={searchQuery}
-          onChange={(event) => handleSearchInput(event)}
+          onChange={event => handleSearchInput(event)}
           helperText={
             noSearchResults
               ? `No results found for "${searchQuery.trim()}"`
               : searchQueryIsEmpty
-              ? "Search cannot be empty"
-              : "Search is not case sensitive"
+                ? 'Search cannot be empty'
+                : 'Search is not case sensitive'
           }
           error={noSearchResults || searchQueryIsEmpty}
           InputProps={{
@@ -188,7 +188,7 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
                   </InputAdornment>
                 )}
               </>
-            ),
+            )
           }}
         />
         <Button
@@ -196,7 +196,7 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
           color="success"
           type="submit"
           disabled={searchQueryIsEmpty}
-          style={{ marginLeft: "1rem" }}
+          style={{ marginLeft: '1rem' }}
         >
           Search
         </Button>
@@ -205,15 +205,15 @@ const NewPlayerProfileForm: FC<PlayerRadioProps> = ({
         <RadioGroup
           aria-labelledby="demo-row-radio-buttons-group-label"
           name="row-radio-buttons-group"
-          style={{ marginBottom: "1rem" }}
-          onChange={(event) => handleSelectPlayerProfile(event)}
+          style={{ marginBottom: '1rem' }}
+          onChange={event => handleSelectPlayerProfile(event)}
         >
           {searchResults.map((result: PlayerProfile) => {
             return (
               <FormControlLabel
                 value={result.name}
                 control={<Radio />}
-                style={{ position: "relative" }}
+                style={{ position: 'relative' }}
                 className={styles.result}
                 label={
                   <>

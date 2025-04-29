@@ -6,21 +6,21 @@ import {
   FormControlLabel,
   Radio,
   FormControl,
-  IconButton,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import styles from "./NewGameDialog.module.scss";
-import { FC, useState } from "react";
-import PlayerTypeRadio from "../PlayerTypeRadio";
-import { NewGameDialogProps } from "../../utils/types";
+  IconButton
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import styles from './NewGameDialog.module.scss';
+import { FC, useState } from 'react';
+import PlayerTypeRadio from '../PlayerTypeRadio';
+import { NewGameDialogProps } from '../../utils/types';
 
 const NewGameDialog: FC<NewGameDialogProps> = ({
   open,
   onClose,
   players,
-  setPlayers,
+  setPlayers
 }) => {
-  const [selectedPlayer, setSelectedPlayer] = useState("Player 1");
+  const [selectedPlayer, setSelectedPlayer] = useState('Player 1');
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
@@ -28,7 +28,7 @@ const NewGameDialog: FC<NewGameDialogProps> = ({
   };
   return (
     <Dialog
-      sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 635 } }}
+      sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 635 } }}
       maxWidth="xs"
       //   TransitionProps={{ onEntering: handleEntering }}
       open={open}
@@ -40,9 +40,9 @@ const NewGameDialog: FC<NewGameDialogProps> = ({
           aria-label="close"
           onClick={onClose}
           sx={{
-            position: "absolute",
+            position: 'absolute',
             right: 12,
-            top: 12,
+            top: 12
           }}
         >
           <CloseIcon />
@@ -51,9 +51,9 @@ const NewGameDialog: FC<NewGameDialogProps> = ({
       <DialogContent
         dividers
         style={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column'
         }}
       >
         <FormControl>
@@ -62,12 +62,12 @@ const NewGameDialog: FC<NewGameDialogProps> = ({
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
             style={{
-              marginBottom: "1rem",
-              display: "flex",
-              justifyContent: "center",
+              marginBottom: '1rem',
+              display: 'flex',
+              justifyContent: 'center'
             }}
             defaultValue="Player 1"
-            onChange={(event) => handleOptionChange(event)}
+            onChange={event => handleOptionChange(event)}
           >
             <FormControlLabel
               value="Player 1"

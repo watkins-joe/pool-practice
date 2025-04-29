@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
-import { GameTypes } from "./constants";
-import { Game, PlayerProfile } from "./types";
+import { Dispatch, SetStateAction } from 'react';
+import { GameTypes } from './constants';
+import { Game, PlayerProfile } from './types';
 
 export function calculateRating(player: PlayerProfile, isTenBall: boolean) {
   let rating: number;

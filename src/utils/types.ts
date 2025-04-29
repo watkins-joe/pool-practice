@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from 'react';
 
 export interface Game {
   playerOne: PlayerProfile;
@@ -24,7 +24,7 @@ export interface PlayerProfile {
 }
 
 export type PlayerStats = {
-  [key in "EightBall" | "TenBall"]: {
+  [key in 'EightBall' | 'TenBall']: {
     rating: number;
     totalPoints: number;
     gamesPlayed: number;

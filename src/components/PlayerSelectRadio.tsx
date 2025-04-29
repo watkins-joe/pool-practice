@@ -1,13 +1,13 @@
-import { FC, useState } from "react";
+import { FC, useState } from 'react';
 import {
   FormControl,
   RadioGroup,
   FormControlLabel,
-  Radio,
-} from "@mui/material";
+  Radio
+} from '@mui/material';
 
 const PlayerSelectRadio: FC = () => {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState('');
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
@@ -21,12 +21,12 @@ const PlayerSelectRadio: FC = () => {
           aria-labelledby="demo-row-radio-buttons-group-label"
           name="row-radio-buttons-group"
           style={{
-            marginBottom: "1rem",
-            display: "flex",
-            justifyContent: "center",
+            marginBottom: '1rem',
+            display: 'flex',
+            justifyContent: 'center'
           }}
           defaultValue="Player 1"
-          onChange={(event) => handleOptionChange(event)}
+          onChange={event => handleOptionChange(event)}
         >
           <FormControlLabel
             value="Player 1"

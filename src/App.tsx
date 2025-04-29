@@ -1,18 +1,18 @@
-import { useEffect } from "react";
-import "./App.css";
-import ScoreTable from "./components/ScoreTable/ScoreTable";
+import { useEffect } from 'react';
+import './App.css';
+import ScoreTable from './components/ScoreTable/ScoreTable';
 
 function App() {
   useEffect(() => {
-    window.addEventListener("beforeunload", alertUser);
+    window.addEventListener('beforeunload', alertUser);
     return () => {
-      window.removeEventListener("beforeunload", alertUser);
+      window.removeEventListener('beforeunload', alertUser);
     };
   }, []);
 
   const alertUser = (event: BeforeUnloadEvent) => {
     event.preventDefault();
-    return (event.returnValue = "");
+    return (event.returnValue = '');
   };
 
   return <ScoreTable />;

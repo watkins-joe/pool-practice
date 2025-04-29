@@ -1,8 +1,8 @@
-import { Button } from "@mui/material";
-import { FC, useState } from "react";
-import NewGameDialog from "../NewGameDialog/NewGameDialog";
-import { WelcomeProps } from "../../utils/types";
-import styles from "./Welcome.module.scss";
+import { Button } from '@mui/material';
+import { FC, useState } from 'react';
+import NewGameDialog from '../NewGameDialog/NewGameDialog';
+import { WelcomeProps } from '../../utils/types';
+import styles from './Welcome.module.scss';
 /**
  * a. when first game saved, generate random id, store this game with this id in localStorage. on each page load, gen new id and save game. load game lists all saved games and you can choose which one or delete them there.
  * 1. when load game clicked, search local storage
@@ -21,7 +21,7 @@ const Welcome: FC<WelcomeProps> = ({ players, setPlayers }) => {
   };
 
   const handleLoadGameClose = () => {
-    console.log("OK");
+    console.log('OK');
     setShowLoadGame(false);
   };
 
@@ -36,7 +36,7 @@ const Welcome: FC<WelcomeProps> = ({ players, setPlayers }) => {
         />
       )}
       <div className={styles.Welcome}>
-        <span style={{ fontSize: "7rem" }}>🎱</span>
+        <span style={{ fontSize: '7rem' }}>🎱</span>
         <h2 style={{ marginTop: 0 }}>Ready to practice?</h2>
         <div>
           <Button
@@ -44,7 +44,7 @@ const Welcome: FC<WelcomeProps> = ({ players, setPlayers }) => {
             // startIcon={<CheckRoundedIcon />}
             color="success"
             // disabled={scoreInputHasError}
-            onClick={(event) => handleLoadGame(event)}
+            onClick={event => handleLoadGame(event)}
           >
             Configure Players
           </Button>

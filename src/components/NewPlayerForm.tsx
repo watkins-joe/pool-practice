@@ -1,14 +1,14 @@
-import { FC, useEffect, useState } from "react";
-import { TextField, Button, IconButton, InputAdornment } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
-import { clearInput, profilePrefix } from "../globals";
-import { NewPlayerFormProps } from "../utils/types";
+import { FC, useEffect, useState } from 'react';
+import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import { clearInput, profilePrefix } from '../globals';
+import { NewPlayerFormProps } from '../utils/types';
 
 const NewPlayerForm: FC<NewPlayerFormProps> = ({
   selectedPlayer,
-  setPlayers,
+  setPlayers
 }) => {
-  const [enteredName, setEnteredName] = useState<string>("");
+  const [enteredName, setEnteredName] = useState<string>('');
   const [enteredNameIsEmpty, setEnteredNameIsEmpty] = useState(false);
 
   useEffect(() => {
@@ -35,24 +35,24 @@ const NewPlayerForm: FC<NewPlayerFormProps> = ({
       return alert(
         `Player profile for "${enteredName.trim()}" already exists.`
       );
-    if (selectedPlayer === "Player 1") {
-      setPlayers((prevState) => {
+    if (selectedPlayer === 'Player 1') {
+      setPlayers(prevState => {
         return {
           ...prevState,
           playerOne: {
             ...prevState.playerOne,
-            name: enteredName.trim(),
-          },
+            name: enteredName.trim()
+          }
         };
       });
-    } else if (selectedPlayer === "Player 2") {
-      setPlayers((prevState) => {
+    } else if (selectedPlayer === 'Player 2') {
+      setPlayers(prevState => {
         return {
           ...prevState,
           playerTwo: {
             ...prevState.playerTwo,
-            name: enteredName.trim(),
-          },
+            name: enteredName.trim()
+          }
         };
       });
     }
@@ -64,24 +64,24 @@ const NewPlayerForm: FC<NewPlayerFormProps> = ({
     <>
       <form
         style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "1rem",
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: '1rem'
         }}
-        onSubmit={(event) => handleNewPlayer(event)}
+        onSubmit={event => handleNewPlayer(event)}
       >
         <TextField
           id="Player 1"
           label={
-            selectedPlayer === "Player 1"
-              ? "Enter player 1 name"
-              : "Enter player 2 name"
+            selectedPlayer === 'Player 1'
+              ? 'Enter player 1 name'
+              : 'Enter player 2 name'
           }
           variant="outlined"
           size="small"
           value={enteredName}
-          onChange={(event) => handleNameInput(event)}
-          helperText={enteredNameIsEmpty && "Name cannot be blank"}
+          onChange={event => handleNameInput(event)}
+          helperText={enteredNameIsEmpty && 'Name cannot be blank'}
           error={enteredNameIsEmpty}
           InputProps={{
             endAdornment: (
@@ -94,14 +94,14 @@ const NewPlayerForm: FC<NewPlayerFormProps> = ({
                   </InputAdornment>
                 )}
               </>
-            ),
+            )
           }}
         />
         <Button
           variant="outlined"
           color="success"
           type="submit"
-          style={{ marginLeft: "1rem" }}
+          style={{ marginLeft: '1rem' }}
           disabled={enteredNameIsEmpty}
         >
           Create

@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from "react";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import ClearIcon from "@mui/icons-material/Clear";
+import { FC, useEffect, useState } from 'react';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import ClearIcon from '@mui/icons-material/Clear';
 import {
   Button,
   FormControlLabel,
@@ -8,19 +8,19 @@ import {
   IconButton,
   InputAdornment,
   Switch,
-  TextField,
-} from "@mui/material";
-import Welcome from "../Welcome/Welcome";
-import { clearInput, profilePrefix } from "../../globals";
-import { calculateRating, scoreIsValid } from "../../utils/functions";
-import { GameScores, Game } from "../../utils/types";
-import InputStyles from "../Input.module.scss";
-import styles from "./ScoreTable.module.scss";
-import { GameTypes, defaultPlayers } from "../../utils/constants";
+  TextField
+} from '@mui/material';
+import Welcome from '../Welcome/Welcome';
+import { clearInput, profilePrefix } from '../../globals';
+import { calculateRating, scoreIsValid } from '../../utils/functions';
+import { GameScores, Game } from '../../utils/types';
+import InputStyles from '../Input.module.scss';
+import styles from './ScoreTable.module.scss';
+import { GameTypes, defaultPlayers } from '../../utils/constants';
 
 const ScoreTable: FC = () => {
   const [games, setGames] = useState<GameScores[]>([]);
-  const [score, setScore] = useState("");
+  const [score, setScore] = useState('');
   const [players, setPlayers] = useState<Game>(defaultPlayers);
   const [scoreInputHasError, setScoreInputHasError] = useState(false);
   const [showRatings, updateShowRatings] = useState(false);
@@ -31,7 +31,7 @@ const ScoreTable: FC = () => {
   }, [players]);
 
   useEffect(() => {
-    const listOfScores = document.querySelectorAll("tr");
+    const listOfScores = document.querySelectorAll('tr');
     const lastScore = listOfScores[listOfScores.length - 1];
     updatePlayerRatings(games);
     lastScore.scrollIntoView();
@@ -89,13 +89,13 @@ const ScoreTable: FC = () => {
       playerOne.stats.TenBall.gamesPlayed += 1;
       playerTwo.stats.TenBall.gamesPlayed += 1;
 
-      setGames((prevGames) => [
+      setGames(prevGames => [
         ...prevGames,
         {
           playerOneScore: Number(score),
           playerTwoScore: GameTypes.TenBall.maxScore - Number(score),
-          id: newID,
-        },
+          id: newID
+        }
       ]);
 
       clearInput(setScore, setScoreInputHasError);
@@ -110,13 +110,13 @@ const ScoreTable: FC = () => {
     playerTwo.stats.EightBall.gamesPlayed += 1;
 
     // console.log(`score before adding score to game: ${score}`);
-    setGames((prevGames) => [
+    setGames(prevGames => [
       ...prevGames,
       {
         playerOneScore: Number(score),
         playerTwoScore: 15 - Number(score),
-        id: newID,
-      },
+        id: newID
+      }
     ]);
 
     clearInput(setScore, setScoreInputHasError);
@@ -126,7 +126,7 @@ const ScoreTable: FC = () => {
     const mostRecentGame = gamesList[gamesList.length - 1];
     if (!mostRecentGame) return;
 
-    setPlayers((prevState) => {
+    setPlayers(prevState => {
       console.log(prevState);
       if (isTenBall) {
         const playerOne = prevState.playerOne;
@@ -138,11 +138,11 @@ const ScoreTable: FC = () => {
         );
         return {
           playerOne: {
-            ...playerOne,
+            ...playerOne
           },
           playerTwo: {
-            ...playerTwo,
-          },
+            ...playerTwo
+          }
         };
       }
       const playerOne = prevState.playerOne;
@@ -154,11 +154,11 @@ const ScoreTable: FC = () => {
       );
       return {
         playerOne: {
-          ...playerOne,
+          ...playerOne
         },
         playerTwo: {
-          ...playerTwo,
-        },
+          ...playerTwo
+        }
       };
     });
   };
@@ -197,7 +197,7 @@ const ScoreTable: FC = () => {
 
     // console.log(players);
 
-    setGames((prevGames) => {
+    setGames(prevGames => {
       return prevGames.filter((_, index) => {
         return gameIndex !== index;
       });
@@ -213,7 +213,7 @@ const ScoreTable: FC = () => {
         <thead>
           <tr>
             <td>
-              <div style={{ display: "flex", justifyContent: "center" }}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <FormGroup>
                   <FormControlLabel
                     control={<Switch onChange={handleShowRatingsChanges} />}
@@ -221,7 +221,7 @@ const ScoreTable: FC = () => {
                     labelPlacement="top"
                   />
                 </FormGroup>
-                <FormGroup style={{ justifyContent: "center" }}>
+                <FormGroup style={{ justifyContent: 'center' }}>
                   <FormControlLabel
                     control={<Switch onChange={handleIsTenBallChanges} />}
                     label="10 Ball"
@@ -232,14 +232,14 @@ const ScoreTable: FC = () => {
             </td>
             <td>Games played: {games.length}</td>
           </tr>
-          <tr className={styles["player--info"]}>
+          <tr className={styles['player--info']}>
             <td align="center">
-              <span className={styles["player--name"]}>
+              <span className={styles['player--name']}>
                 {players.playerOne.name}
               </span>
               <br />
               {showRatings && (
-                <span className={styles["player--rating"]}>
+                <span className={styles['player--rating']}>
                   {isTenBall
                     ? players.playerOne.stats.TenBall.rating
                     : players.playerOne.stats.EightBall.rating}
@@ -247,12 +247,12 @@ const ScoreTable: FC = () => {
               )}
             </td>
             <td align="center">
-              <span className={styles["player--name"]}>
+              <span className={styles['player--name']}>
                 {players.playerTwo.name}
               </span>
               <br />
               {showRatings && (
-                <span className={styles["player--rating"]}>
+                <span className={styles['player--rating']}>
                   {isTenBall
                     ? players.playerTwo.stats.TenBall.rating
                     : players.playerTwo.stats.EightBall.rating}
@@ -264,7 +264,7 @@ const ScoreTable: FC = () => {
         <tbody className={styles.games}>
           {games.map((game, index) => (
             <tr key={game.id} id={String(game.id)}>
-              <td align="center" style={{ position: "relative" }}>
+              <td align="center" style={{ position: 'relative' }}>
                 <IconButton
                   className={styles.delete}
                   color="error"
@@ -284,9 +284,9 @@ const ScoreTable: FC = () => {
         <form
           onSubmit={handleSubmitScore}
           style={{
-            padding: "1rem",
-            display: "flex",
-            justifyContent: "space-evenly",
+            padding: '1rem',
+            display: 'flex',
+            justifyContent: 'space-evenly'
           }}
         >
           <TextField
@@ -294,10 +294,10 @@ const ScoreTable: FC = () => {
             id="playerOneScore"
             name="playerOneScore"
             label={`Score for ${players.playerOne.name}`}
-            onChange={(event) => handleScoreInput(event)}
-            placeholder={"0"}
+            onChange={event => handleScoreInput(event)}
+            placeholder={'0'}
             value={score}
-            style={{ maxWidth: "10rem" }}
+            style={{ maxWidth: '10rem' }}
             helperText={
               scoreInputHasError &&
               `Enter a score from ${GameTypes.minScore} to ${
@@ -308,7 +308,7 @@ const ScoreTable: FC = () => {
             }
             error={scoreInputHasError}
             InputLabelProps={{
-              className: InputStyles["input--label"],
+              className: InputStyles['input--label']
             }}
             InputProps={{
               className: InputStyles.input,
@@ -327,7 +327,7 @@ const ScoreTable: FC = () => {
                     </InputAdornment>
                   )}
                 </>
-              ),
+              )
             }}
           />
           <Button
